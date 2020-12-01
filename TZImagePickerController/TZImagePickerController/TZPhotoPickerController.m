@@ -18,6 +18,7 @@
 #import "TZLocationManager.h"
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "TZImageRequestOperation.h"
+#import "YQCustomTitleView.h"
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, PHPhotoLibraryChangeObserver> {
     NSMutableArray *_models;
@@ -109,6 +110,16 @@ static CGFloat itemMargin = 5;
     
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 3;
+    
+    YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
+    titleView.label.text = _model.name;
+    __weak typeof(self) weakSelf = self;
+    titleView.didClick = ^{
+        if (weakSelf.didClickTitleView) {
+            weakSelf.didClickTitleView();
+        }
+    };
+    self.navigationItem.titleView = titleView;
 }
 
 - (void)fetchAssetModels {

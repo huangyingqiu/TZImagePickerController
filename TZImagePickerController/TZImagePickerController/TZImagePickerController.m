@@ -34,6 +34,7 @@
 /// 默认4列, TZPhotoPickerController中的照片collectionView
 @property (nonatomic, assign) NSInteger columnNumber;
 @property (nonatomic, assign) NSInteger HUDTimeoutCount; ///< 超时隐藏HUD计数
+@property (nonatomic, strong) TZAlbumPickerController *albumPickerVc;
 @end
 
 @implementation TZImagePickerController
@@ -159,7 +160,8 @@
     TZAlbumPickerController *albumPickerVc = [[TZAlbumPickerController alloc] init];
     albumPickerVc.isFirstAppear = YES;
     albumPickerVc.columnNumber = columnNumber;
-    self = [super initWithRootViewController:albumPickerVc];
+    self.albumPickerVc = albumPickerVc;
+    self = [super init];//[super initWithRootViewController:albumPickerVc];
     if (self) {
         self.maxImagesCount = maxImagesCount > 0 ? maxImagesCount : 9; // Default is 9 / 默认最大可选9张图片
         self.pickerDelegate = delegate;
@@ -404,11 +406,26 @@
         TZPhotoPickerController *photoPickerVc = [[TZPhotoPickerController alloc] init];
         photoPickerVc.isFirstAppear = YES;
         photoPickerVc.columnNumber = self.columnNumber;
+        __weak typeof(self) weakSelf = self;
+        photoPickerVc.didClickTitleView = ^{
+            [weakSelf addChild];
+        };
         [[TZImageManager manager] getCameraRollAlbumWithFetchAssets:NO completion:^(TZAlbumModel *model) {
             photoPickerVc.model = model;
             [self pushViewController:photoPickerVc animated:YES];
             self->_didPushPhotoPickerVc = YES;
         }];
+    }
+}
+
+- (void)addChild {
+    if (!self.albumPickerVc.parentViewController) {
+//        [self addChildViewController:self.albumPickerVc];
+//        [self.view bringSubviewToFront:self.albumPickerVc.view];
+//        self.albumPickerVc.view.frame = self.view.bounds;
+        [self presentViewController:self.albumPickerVc animated:YES completion:nil];
+    } else {
+        [self.albumPickerVc dismissViewControllerAnimated:YES completion:nil];
     }
 }
 

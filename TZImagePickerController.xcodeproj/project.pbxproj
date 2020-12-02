@@ -74,6 +74,9 @@
 		9F763A791FA0741D00D9E526 /* UIView+Layout.h in Headers */ = {isa = PBXBuildFile; fileRef = 90EBF5D41C2E298000CB9BCC /* UIView+Layout.h */; };
 		E3C36B582576636000227F8B /* YQCustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B572576636000227F8B /* YQCustomTitleView.m */; };
 		E3C36B622576645800227F8B /* YQCustomTitleView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B572576636000227F8B /* YQCustomTitleView.m */; };
+		E3C36B862577642100227F8B /* YQAlbumPickerView.h in Headers */ = {isa = PBXBuildFile; fileRef = E3C36B842577642100227F8B /* YQAlbumPickerView.h */; };
+		E3C36B872577642100227F8B /* YQAlbumPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B852577642100227F8B /* YQAlbumPickerView.m */; };
+		E3C36B882577642100227F8B /* YQAlbumPickerView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B852577642100227F8B /* YQAlbumPickerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -186,6 +189,8 @@
 		9F763A451FA071D000D9E526 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E3C36B562576636000227F8B /* YQCustomTitleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YQCustomTitleView.h; sourceTree = "<group>"; };
 		E3C36B572576636000227F8B /* YQCustomTitleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YQCustomTitleView.m; sourceTree = "<group>"; };
+		E3C36B842577642100227F8B /* YQAlbumPickerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YQAlbumPickerView.h; sourceTree = "<group>"; };
+		E3C36B852577642100227F8B /* YQAlbumPickerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YQAlbumPickerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,6 +313,8 @@
 		900EEFF51C2BBF7600EA709B /* TZImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				E3C36B842577642100227F8B /* YQAlbumPickerView.h */,
+				E3C36B852577642100227F8B /* YQAlbumPickerView.m */,
 				E3C36B562576636000227F8B /* YQCustomTitleView.h */,
 				E3C36B572576636000227F8B /* YQCustomTitleView.m */,
 				900EEFF61C2BBF9500EA709B /* TZImagePickerController.h */,
@@ -401,6 +408,7 @@
 				9F763A701FA0741D00D9E526 /* TZAssetCell.h in Headers */,
 				9F763A791FA0741D00D9E526 /* UIView+Layout.h in Headers */,
 				9F763A6F1FA0741D00D9E526 /* TZPhotoPickerController.h in Headers */,
+				E3C36B862577642100227F8B /* YQAlbumPickerView.h in Headers */,
 				9F763A751FA0741D00D9E526 /* TZProgressView.h in Headers */,
 				9F763A771FA0741D00D9E526 /* TZImageCropManager.h in Headers */,
 			);
@@ -600,6 +608,7 @@
 				900EF0121C2C107400EA709B /* TZPhotoPreviewController.m in Sources */,
 				901CC3FC21CB758500C55443 /* TZImageRequestOperation.m in Sources */,
 				6D5358CD1D64600F00928CC6 /* NSBundle+TZImagePicker.m in Sources */,
+				E3C36B872577642100227F8B /* YQAlbumPickerView.m in Sources */,
 				900EEFF81C2BBF9500EA709B /* TZImagePickerController.m in Sources */,
 				902938D81EE2D02C000F2F8F /* TZLocationManager.m in Sources */,
 				6DC84D0A1DF5358500A107A9 /* TZImageCropManager.m in Sources */,
@@ -626,6 +635,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E3C36B882577642100227F8B /* YQAlbumPickerView.m in Sources */,
 				E3C36B622576645800227F8B /* YQCustomTitleView.m in Sources */,
 				901CC3FB21CB757500C55443 /* TZImageRequestOperation.m in Sources */,
 				9F763A501FA072E500D9E526 /* TZImagePickerController.m in Sources */,

@@ -19,6 +19,7 @@
 #import <MobileCoreServices/MobileCoreServices.h>
 #import "TZImageRequestOperation.h"
 #import "YQCustomTitleView.h"
+#import "YQAlbumPickerView.h"
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, PHPhotoLibraryChangeObserver> {
     NSMutableArray *_models;
@@ -47,6 +48,7 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, assign) BOOL isSavingMedia;
 @property (nonatomic, assign) BOOL isFetchingMedia;
+@property (nonatomic, strong) YQAlbumPickerView *albumPickerView;
 @end
 
 static CGSize AssetGridThumbnailSize;
@@ -111,15 +113,43 @@ static CGFloat itemMargin = 5;
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 3;
     
+    [self setupNavigationTitleView];
+}
+
+- (void)setupNavigationTitleView {
     YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
     titleView.label.text = _model.name;
+    
+    self.albumPickerView = [[YQAlbumPickerView alloc] init];
+    self.albumPickerView.parentViewController = self;
     __weak typeof(self) weakSelf = self;
     titleView.didClick = ^{
-        if (weakSelf.didClickTitleView) {
-            weakSelf.didClickTitleView();
+        if (!weakSelf.albumPickerView.superview) {
+            [weakSelf.albumPickerView configTableView];
+            [weakSelf.view addSubview:weakSelf.albumPickerView];
+            CGFloat topHeight = weakSelf.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
+            weakSelf.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
+            [UIView animateWithDuration:0.25 animations:^{
+                [weakSelf.albumPickerView setTz_height:weakSelf.view.tz_height - topHeight];
+                [weakSelf.albumPickerView layoutSubviews];
+            }];
+        } else {
+            [UIView animateWithDuration:0.25 animations:^{
+                [weakSelf.albumPickerView setTz_height:0];
+            } completion:^(BOOL finished) {
+                [weakSelf.albumPickerView removeFromSuperview];
+            }];
         }
     };
     self.navigationItem.titleView = titleView;
+}
+
+- (void)resetData {
+    YQCustomTitleView *titleView = (YQCustomTitleView *)self.navigationItem.titleView;
+    titleView.label.text = _model.name;
+    self->_models = [NSMutableArray arrayWithArray:self->_model.models];
+    _shouldScrollToBottom = YES;
+    [self initSubviews];
 }
 
 - (void)fetchAssetModels {

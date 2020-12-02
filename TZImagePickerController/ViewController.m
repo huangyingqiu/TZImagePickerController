@@ -270,6 +270,12 @@
     // imagePickerVc.naviBgColor = [UIColor whiteColor];
     // imagePickerVc.navigationBar.translucent = NO;
     
+//    __weak typeof(self) weakSelf = self;
+//    imagePickerVc.photoPickerPageDidLayoutSubviewsBlock = ^(UICollectionView *collectionView, UIView *bottomToolBar, UIButton *previewButton, UIButton *originalPhotoButton, UILabel *originalPhotoLabel, UIButton *doneButton, UIImageView *numberImageView, UILabel *numberLabel, UIView *divideLine) {
+//        bottomToolBar.frame = CGRectMake(0, weakSelf.view.tz_height - 100, 0, 100);
+//   
+//    };
+        
 #pragma mark - 五类个性化设置，这些参数都可以不传，此时会走默认设置
     imagePickerVc.isSelectOriginalPhoto = _isSelectOriginalPhoto;
     
@@ -294,7 +300,7 @@
     // imagePickerVc.oKButtonTitleColorDisabled = [UIColor lightGrayColor];
     // imagePickerVc.oKButtonTitleColorNormal = [UIColor greenColor];
     // imagePickerVc.navigationBar.translucent = NO;
-    imagePickerVc.iconThemeColor = [UIColor colorWithRed:31 / 255.0 green:185 / 255.0 blue:34 / 255.0 alpha:1.0];
+    imagePickerVc.iconThemeColor = [UIColor colorWithRed:59 / 255.0 green:195 / 255.0 blue:255 / 255.0 alpha:1.0];
     imagePickerVc.showPhotoCannotSelectLayer = YES;
     imagePickerVc.cannotSelectLayerColor = [[UIColor whiteColor] colorWithAlphaComponent:0.8];
     /*

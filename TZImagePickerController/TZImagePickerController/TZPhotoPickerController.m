@@ -20,6 +20,7 @@
 #import "TZImageRequestOperation.h"
 #import "YQCustomTitleView.h"
 #import "YQAlbumPickerView.h"
+#import "YQPhotoPickerBottomBar.h"
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, PHPhotoLibraryChangeObserver> {
     NSMutableArray *_models;
@@ -150,6 +151,10 @@ static CGFloat itemMargin = 5;
     self->_models = [NSMutableArray arrayWithArray:self->_model.models];
     _shouldScrollToBottom = YES;
     [self initSubviews];
+}
+
+- (void)reloadData {
+    [self.collectionView reloadData];
 }
 
 - (void)fetchAssetModels {
@@ -445,6 +450,12 @@ static CGFloat itemMargin = 5;
     if (tzImagePickerVc.photoPickerPageDidLayoutSubviewsBlock) {
         tzImagePickerVc.photoPickerPageDidLayoutSubviewsBlock(_collectionView, _bottomToolBar, _previewButton, _originalPhotoButton, _originalPhotoLabel, _doneButton, _numberImageView, _numberLabel, _divideLine);
     }
+    
+    YQPhotoPickerBottomBar *bottomBar = [[YQPhotoPickerBottomBar alloc] init];
+    bottomBar.parentViewController = self;
+    _bottomToolBar = bottomBar;
+    [self.view addSubview:_bottomToolBar];
+    _bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 140, self.view.tz_width, 140);
 }
 
 #pragma mark - Notification
@@ -831,6 +842,9 @@ static CGFloat itemMargin = 5;
     if (tzImagePickerVc.photoPickerPageDidRefreshStateBlock) {
         tzImagePickerVc.photoPickerPageDidRefreshStateBlock(_collectionView, _bottomToolBar, _previewButton, _originalPhotoButton, _originalPhotoLabel, _doneButton, _numberImageView, _numberLabel, _divideLine);;
     }
+    
+    YQPhotoPickerBottomBar *bottomBar = (YQPhotoPickerBottomBar *)_bottomToolBar;
+    bottomBar.selectedModels = tzImagePickerVc.selectedModels;
 }
 
 - (void)pushPhotoPrevireViewController:(TZPhotoPreviewController *)photoPreviewVc {

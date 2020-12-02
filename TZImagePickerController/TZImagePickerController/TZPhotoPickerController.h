@@ -15,6 +15,7 @@
 @property (nonatomic, assign) NSInteger columnNumber;
 @property (nonatomic, strong) TZAlbumModel *model;
 - (void)resetData;
+- (void)reloadData;
 @end
 
 

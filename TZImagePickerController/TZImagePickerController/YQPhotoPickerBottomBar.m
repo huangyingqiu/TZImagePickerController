@@ -41,12 +41,21 @@
     self.previewButton.frame = CGRectMake(self.tz_width - 90, self.tz_height - 10 - 28, 75, 28);
     
     self.titleLabel.frame = CGRectMake(15, self.tz_height - 30, self.tz_width - 120, 16);
+    
+    [self updatePreviewButtonState];
+}
+
+- (void)updatePreviewButtonState {
+    self.previewButton.enabled = self.selectedModels.count >= 1;
+    self.previewButton.backgroundColor = self.previewButton.enabled ? self.tzImagePickerController.iconThemeColor : self.grayBackgroundColor;
 }
 
 #pragma mark - Action
 
 - (void)clickPreviewButton {
-    
+    if (self.didClickDoneButton) {
+        self.didClickDoneButton();
+    }
 }
 
 - (void)longPressCollectionView:(UILongPressGestureRecognizer *)gesture {
@@ -90,6 +99,7 @@
                 [tzImagePickerVc removeSelectedModel:model_item];
                 [weakSelf.selectedModels removeObject:model_item];
                 [weakSelf.collectionView reloadData];
+                [weakSelf updatePreviewButtonState];
                 break;
             }
         }
@@ -124,11 +134,16 @@
     return (TZImagePickerController *)self.parentViewController.navigationController;
 }
 
+- (UIColor *)grayBackgroundColor {
+    return [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+}
+
 #pragma mark - setter
 
 - (void)setSelectedModels:(NSMutableArray<TZAssetModel *> *)selectedModels {
     _selectedModels = selectedModels;
     [self.collectionView reloadData];
+    [self updatePreviewButtonState];
 }
 
 - (UICollectionView *)collectionView {
@@ -159,7 +174,8 @@
         _titleLabel.font = [UIFont systemFontOfSize:14];
         _titleLabel.textColor = UIColor.whiteColor;
         _titleLabel.textAlignment = NSTextAlignmentLeft;
-        _titleLabel.text = @"选择7个素材最佳";
+        NSString *title = [NSString stringWithFormat:[NSBundle tz_localizedStringForKey:@"Select %zd photos best"], self.tzImagePickerController.maxImagesCount];
+        _titleLabel.text = title;
         [self addSubview:_titleLabel];
     }
     return _titleLabel;
@@ -168,12 +184,12 @@
 - (UIButton *)previewButton {
     if (!_previewButton) {
         _previewButton = [[UIButton alloc] init];
-        _previewButton.titleLabel.font = [UIFont systemFontOfSize:14];
+        _previewButton.titleLabel.font = [UIFont boldSystemFontOfSize:14];
         [_previewButton setTitle:self.tzImagePickerController.previewBtnTitleStr forState:UIControlStateNormal];
         [_previewButton setTitle:self.tzImagePickerController.previewBtnTitleStr forState:UIControlStateDisabled];
         [_previewButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        [_previewButton setTitleColor:[UIColor lightGrayColor] forState:UIControlStateDisabled];
-        _previewButton.backgroundColor = self.tzImagePickerController.iconThemeColor;
+        [_previewButton setTitleColor:[UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0] forState:UIControlStateDisabled];
+        _previewButton.backgroundColor = self.grayBackgroundColor;
         [_previewButton addTarget:self action:@selector(clickPreviewButton) forControlEvents:UIControlEventTouchUpInside];
         _previewButton.layer.cornerRadius = 14;
         _previewButton.layer.masksToBounds = YES;
@@ -185,7 +201,7 @@
 - (UIView *)lineView {
     if (!_lineView) {
         _lineView = [[UIView alloc] init];
-        _lineView.backgroundColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0];
+        _lineView.backgroundColor = self.grayBackgroundColor;
         [self addSubview:_lineView];
     }
     return _lineView;

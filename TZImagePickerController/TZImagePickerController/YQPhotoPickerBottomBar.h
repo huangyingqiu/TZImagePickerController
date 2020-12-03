@@ -17,6 +17,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, strong) NSMutableArray<TZAssetModel *> *selectedModels;
 
+@property (nonatomic, copy) void (^didClickDoneButton)(void);
+
 @end
 
 NS_ASSUME_NONNULL_END

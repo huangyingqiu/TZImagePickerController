@@ -460,6 +460,10 @@ static CGFloat itemMargin = 5;
     }
     
     YQPhotoPickerBottomBar *bottomBar = [[YQPhotoPickerBottomBar alloc] init];
+    __weak typeof(self) weakSelf = self;
+    bottomBar.didClickDoneButton = ^{
+        [weakSelf doneButtonClick];
+    };
     bottomBar.parentViewController = self;
     _bottomToolBar = bottomBar;
     [self.view addSubview:_bottomToolBar];

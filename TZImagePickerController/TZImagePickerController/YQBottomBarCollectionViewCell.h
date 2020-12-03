@@ -13,9 +13,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YQBottomBarCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) TZAssetModel *model;
+@property (nonatomic, strong, nullable) TZAssetModel *model;
 
 @property (nonatomic, strong) UIColor *themeColor;
+
+@property (nonatomic, assign) BOOL needShowBorder;
 
 @property (nonatomic, copy) void (^didClickDeleteButton)(TZAssetModel *model);
 

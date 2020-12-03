@@ -63,7 +63,7 @@
         case UIGestureRecognizerStateBegan:
         {
             NSIndexPath *selectedIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
-            if (selectedIndexPath) {
+            if (selectedIndexPath && selectedIndexPath.row < self.selectedModels.count) {
                 [self.collectionView beginInteractiveMovementForItemAtIndexPath:selectedIndexPath];
             }
         }
@@ -72,7 +72,14 @@
             [self.collectionView updateInteractiveMovementTargetPosition:[gesture locationInView:self.collectionView]];
             break;
         case UIGestureRecognizerStateEnded:
-            [self.collectionView endInteractiveMovement];
+        {
+            NSIndexPath *selectedIndexPath = [self.collectionView indexPathForItemAtPoint:[gesture locationInView:self.collectionView]];
+            if (selectedIndexPath && selectedIndexPath.row < self.selectedModels.count) {
+                [self.collectionView endInteractiveMovement];
+            } else {
+                [self.collectionView cancelInteractiveMovement];
+            }
+        }
             break;
         default:
             [self.collectionView cancelInteractiveMovement];
@@ -83,12 +90,17 @@
 #pragma mark - UICollectionViewDelegate, UICollectionViewDataSource
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
-    return self.selectedModels.count;
+    return self.tzImagePickerController.maxImagesCount;
 }
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     YQBottomBarCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YQBottomBarCollectionViewCell" forIndexPath:indexPath];
-    cell.model = self.selectedModels[indexPath.row];
+    if (indexPath.row < self.selectedModels.count) {
+        cell.model = self.selectedModels[indexPath.row];
+    } else {
+        cell.model = nil;
+    }
+    cell.needShowBorder = indexPath.row == self.selectedModels.count;
     
     __weak typeof(self) weakSelf = self;
     cell.didClickDeleteButton = ^(TZAssetModel * _Nonnull model) {
@@ -113,9 +125,16 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
-    [self.selectedModels exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
+    TZAssetModel *model = self.selectedModels[sourceIndexPath.row];
+    [self.selectedModels removeObjectAtIndex:sourceIndexPath.row];
+    [self.selectedModels insertObject:model atIndex:destinationIndexPath.row];
+//    [self.selectedModels exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
-    [tzImagePickerVc.selectedAssetIds exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
+    NSString *selectedId = tzImagePickerVc.selectedAssetIds[sourceIndexPath.row];
+    [tzImagePickerVc.selectedAssetIds removeObjectAtIndex:sourceIndexPath.row];
+    [tzImagePickerVc.selectedAssetIds insertObject:selectedId atIndex:destinationIndexPath.row];
+    //    [tzImagePickerVc.selectedAssetIds exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
+
     TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)self.parentViewController;
     [photoPickerVc collectionViewReload];
 }
@@ -125,7 +144,7 @@
 }
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (self.didSelectedIndexPath) {
+    if (self.didSelectedIndexPath && indexPath.row < self.selectedModels.count) {
         self.didSelectedIndexPath(indexPath);
     }
 }

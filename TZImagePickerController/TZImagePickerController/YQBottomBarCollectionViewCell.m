@@ -29,17 +29,6 @@
     return self;
 }
 
-- (void)setSelected:(BOOL)selected {
-    [super setSelected:selected];
-    if (selected) {
-        self.contentView.layer.borderColor = self.themeColor.CGColor;
-        self.contentView.layer.borderWidth = 2;
-    } else {
-        self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
-        self.contentView.layer.borderWidth = 0;
-    }
-}
-
 - (void)setupSubviews {
     self.themeColor = [UIColor colorWithRed:59 / 255.0 green:195 / 255.0 blue:255 / 255.0 alpha:1.0];
     self.contentView.backgroundColor = [UIColor whiteColor];
@@ -69,6 +58,13 @@
 
 - (void)setModel:(TZAssetModel *)model {
     _model = model;
+    if (!model) {
+        self.imageView.image = [UIImage tz_imageNamedFromMyBundle:@"ic_album_default_video"];
+        self.deleteButton.hidden = YES;
+        return;
+    } else {
+        self.deleteButton.hidden = NO;
+    }
     self.representedAssetIdentifier = model.asset.localIdentifier;
     int32_t imageRequestID = [[TZImageManager manager] getPhotoWithAsset:model.asset photoWidth:self.tz_width completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
         // Set the cell's thumbnail image if it's still showing the same asset.
@@ -99,6 +95,17 @@
 //        }
     }
     [self setNeedsLayout];
+}
+
+- (void)setNeedShowBorder:(BOOL)needShowBorder {
+    _needShowBorder = needShowBorder;
+    if (needShowBorder) {
+        self.contentView.layer.borderColor = self.themeColor.CGColor;
+        self.contentView.layer.borderWidth = 2;
+    } else {
+        self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
+        self.contentView.layer.borderWidth = 0;
+    }
 }
 
 - (UIImageView *)imageView {

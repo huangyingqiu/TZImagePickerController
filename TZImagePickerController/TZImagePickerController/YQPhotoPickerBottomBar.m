@@ -79,7 +79,6 @@
 
 - (__kindof UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     YQBottomBarCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"YQBottomBarCollectionViewCell" forIndexPath:indexPath];
-//    cell.titleLabel.text = [NSString stringWithFormat:@"%@", self.dataSources[indexPath.row]];
     cell.model = self.selectedModels[indexPath.row];
     
     __weak typeof(self) weakSelf = self;
@@ -90,24 +89,25 @@
             if ([model.asset.localIdentifier isEqualToString:model_item.asset.localIdentifier]) {
                 [tzImagePickerVc removeSelectedModel:model_item];
                 [weakSelf.selectedModels removeObject:model_item];
+                [weakSelf.collectionView reloadData];
                 break;
             }
         }
-        TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)self.parentViewController;
-        NSInteger index = [photoPickerVc.model.models indexOfObject:model];
-        TZAssetModel *deSelectModel = photoPickerVc.model.models[index];
-        deSelectModel.isSelected = NO;
-        [photoPickerVc reloadData];
+        if (tzImagePickerVc.showSelectedIndex || tzImagePickerVc.showPhotoCannotSelectLayer) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_RELOAD_NOTIFICATION" object:tzImagePickerVc];
+        }
+        TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)weakSelf.parentViewController;
+        [photoPickerVc deSelectWithModel:model];
     };
     return cell;
 }
 
 - (void)collectionView:(UICollectionView *)collectionView moveItemAtIndexPath:(NSIndexPath *)sourceIndexPath toIndexPath:(NSIndexPath *)destinationIndexPath {
     [self.selectedModels exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
-//    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
-//    [tzImagePickerVc.selectedModels exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
-//    TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)self.parentViewController;
-//    [photoPickerVc reloadData];
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
+    [tzImagePickerVc.selectedAssetIds exchangeObjectAtIndex:sourceIndexPath.item withObjectAtIndex:destinationIndexPath.item];
+    TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)self.parentViewController;
+    [photoPickerVc collectionViewReload];
 }
 
 - (BOOL)collectionView:(UICollectionView *)collectionView canMoveItemAtIndexPath:(NSIndexPath *)indexPath {

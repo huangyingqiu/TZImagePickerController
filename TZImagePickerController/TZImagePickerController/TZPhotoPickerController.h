@@ -8,14 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class TZAlbumModel;
+@class TZAlbumModel, TZAssetModel;
 @interface TZPhotoPickerController : UIViewController
 
 @property (nonatomic, assign) BOOL isFirstAppear;
 @property (nonatomic, assign) NSInteger columnNumber;
 @property (nonatomic, strong) TZAlbumModel *model;
 - (void)resetData;
-- (void)reloadData;
+- (void)deSelectWithModel:(TZAssetModel *)model;
+- (void)collectionViewReload;
 @end
 
 

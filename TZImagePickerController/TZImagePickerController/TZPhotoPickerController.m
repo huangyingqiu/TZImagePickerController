@@ -153,8 +153,16 @@ static CGFloat itemMargin = 5;
     [self initSubviews];
 }
 
-- (void)reloadData {
+- (void)collectionViewReload {
     [self.collectionView reloadData];
+}
+
+- (void)deSelectWithModel:(TZAssetModel *)model {
+    NSInteger index = [_models indexOfObject:model];
+    TZAssetModel *deSelectModel = _models[index];
+    deSelectModel.isSelected = NO;
+    NSIndexPath *deSelectIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
+    [self.collectionView reloadItemsAtIndexPaths:@[deSelectIndexPath]];
 }
 
 - (void)fetchAssetModels {

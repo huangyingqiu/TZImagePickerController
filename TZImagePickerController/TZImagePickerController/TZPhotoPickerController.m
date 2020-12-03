@@ -119,26 +119,32 @@ static CGFloat itemMargin = 5;
 
 - (void)setupNavigationTitleView {
     YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
-    titleView.label.text = _model.name;
+    titleView.title = _model.name;
     
     self.albumPickerView = [[YQAlbumPickerView alloc] init];
     self.albumPickerView.parentViewController = self;
     __weak typeof(self) weakSelf = self;
+    __weak typeof(YQCustomTitleView *) weakTitleView = titleView;
     titleView.didClick = ^{
         if (!weakSelf.albumPickerView.superview) {
             [weakSelf.albumPickerView configTableView];
-            [weakSelf.view addSubview:weakSelf.albumPickerView];
+//            [weakSelf.view addSubview:weakSelf.albumPickerView];
+            [weakSelf.view insertSubview:weakSelf.albumPickerView belowSubview:self->_bottomToolBar];
+            
             CGFloat topHeight = weakSelf.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
             weakSelf.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
             [UIView animateWithDuration:0.25 animations:^{
                 [weakSelf.albumPickerView setTz_height:weakSelf.view.tz_height - topHeight];
                 [weakSelf.albumPickerView layoutSubviews];
+            } completion:^(BOOL finished) {
+                weakTitleView.isSelected = YES;
             }];
         } else {
             [UIView animateWithDuration:0.25 animations:^{
                 [weakSelf.albumPickerView setTz_height:0];
             } completion:^(BOOL finished) {
                 [weakSelf.albumPickerView removeFromSuperview];
+                weakTitleView.isSelected = NO;
             }];
         }
     };
@@ -147,7 +153,8 @@ static CGFloat itemMargin = 5;
 
 - (void)resetData {
     YQCustomTitleView *titleView = (YQCustomTitleView *)self.navigationItem.titleView;
-    titleView.label.text = _model.name;
+    titleView.title = _model.name;
+    titleView.isSelected = NO;
     self->_models = [NSMutableArray arrayWithArray:self->_model.models];
     _shouldScrollToBottom = YES;
     [self initSubviews];

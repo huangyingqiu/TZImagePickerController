@@ -12,7 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface YQCustomTitleView : UIView
 
-@property (nonatomic, strong) UILabel *label;
+@property (nonatomic, copy) NSString *title;
+
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, copy) void (^didClick)(void);
 

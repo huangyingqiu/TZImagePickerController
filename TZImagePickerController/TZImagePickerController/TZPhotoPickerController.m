@@ -459,14 +459,21 @@ static CGFloat itemMargin = 5;
         tzImagePickerVc.photoPickerPageDidLayoutSubviewsBlock(_collectionView, _bottomToolBar, _previewButton, _originalPhotoButton, _originalPhotoLabel, _doneButton, _numberImageView, _numberLabel, _divideLine);
     }
     
-    YQPhotoPickerBottomBar *bottomBar = [[YQPhotoPickerBottomBar alloc] init];
-    __weak typeof(self) weakSelf = self;
-    bottomBar.didClickDoneButton = ^{
-        [weakSelf doneButtonClick];
-    };
-    bottomBar.parentViewController = self;
-    _bottomToolBar = bottomBar;
-    [self.view addSubview:_bottomToolBar];
+    if (_bottomToolBar != nil && ![_bottomToolBar isKindOfClass:[YQPhotoPickerBottomBar class]]) {
+        YQPhotoPickerBottomBar *bottomBar = [[YQPhotoPickerBottomBar alloc] init];
+        __weak typeof(self) weakSelf = self;
+        bottomBar.parentViewController = self;
+        _bottomToolBar = bottomBar;
+        [self.view addSubview:_bottomToolBar];
+        bottomBar.didClickDoneButton = ^{
+            [weakSelf doneButtonClick];
+        };
+        bottomBar.didSelectedIndexPath = ^(NSIndexPath * _Nonnull indexPath) {
+            TZPhotoPreviewController *photoPreviewVc = [[TZPhotoPreviewController alloc] init];
+            photoPreviewVc.currentIndex = indexPath.row;
+            [weakSelf pushPhotoPrevireViewController:photoPreviewVc needCheckSelectedModels:YES];
+        };
+    }
     _bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 140, self.view.tz_width, 140);
 }
 

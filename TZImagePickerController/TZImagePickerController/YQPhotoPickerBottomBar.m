@@ -124,6 +124,12 @@
     return YES;
 }
 
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.didSelectedIndexPath) {
+        self.didSelectedIndexPath(indexPath);
+    }
+}
+
 #pragma mark - getter
 
 - (NSInteger)maxImagesCount {
@@ -144,6 +150,9 @@
     _selectedModels = selectedModels;
     [self.collectionView reloadData];
     [self updatePreviewButtonState];
+    if (selectedModels.count > 1) {
+        [self.collectionView scrollToItemAtIndexPath:[NSIndexPath indexPathForRow:selectedModels.count - 1 inSection:0] atScrollPosition:UICollectionViewScrollPositionRight animated:YES];
+    }
 }
 
 - (UICollectionView *)collectionView {

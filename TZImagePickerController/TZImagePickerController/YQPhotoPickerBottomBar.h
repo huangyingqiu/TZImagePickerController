@@ -19,6 +19,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) void (^didClickDoneButton)(void);
 
+@property (nonatomic, copy) void (^didSelectedIndexPath)(NSIndexPath *indexPath);
+
 @end
 
 NS_ASSUME_NONNULL_END

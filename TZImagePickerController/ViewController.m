@@ -298,7 +298,7 @@
     // 2. 在这里设置imagePickerVc的外观
     // imagePickerVc.navigationBar.barTintColor = [UIColor greenColor];
     // imagePickerVc.oKButtonTitleColorDisabled = [UIColor lightGrayColor];
-    // imagePickerVc.oKButtonTitleColorNormal = [UIColor greenColor];
+    imagePickerVc.oKButtonTitleColorNormal = [UIColor colorWithRed:59 / 255.0 green:195 / 255.0 blue:255 / 255.0 alpha:1.0];
     // imagePickerVc.navigationBar.translucent = NO;
     imagePickerVc.iconThemeColor = [UIColor colorWithRed:59 / 255.0 green:195 / 255.0 blue:255 / 255.0 alpha:1.0];
     imagePickerVc.showPhotoCannotSelectLayer = YES;

@@ -17,4 +17,10 @@ NS_ASSUME_NONNULL_BEGIN
 - (void)configTableView;
 @end
 
+@class TZAlbumModel;
+@interface YQAlbumCell : UITableViewCell
+@property (nonatomic, strong) TZAlbumModel *model;
+@property (weak, nonatomic) UIButton *selectedCountButton;
+@end
+
 NS_ASSUME_NONNULL_END

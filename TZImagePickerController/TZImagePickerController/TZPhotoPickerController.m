@@ -134,7 +134,7 @@ static CGFloat itemMargin = 5;
             CGFloat topHeight = weakSelf.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
             weakSelf.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
             [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.albumPickerView setTz_height:weakSelf.view.tz_height - topHeight];
+                [weakSelf.albumPickerView setTz_height:weakSelf.view.tz_height - topHeight - self->_bottomToolBar.tz_height];
                 [weakSelf.albumPickerView layoutSubviews];
             } completion:^(BOOL finished) {
                 weakTitleView.isSelected = YES;
@@ -482,7 +482,17 @@ static CGFloat itemMargin = 5;
             [weakSelf pushPhotoPrevireViewController:photoPreviewVc needCheckSelectedModels:YES];
         };
     }
-    _bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 140, self.view.tz_width, 140);
+    _bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 140 - [TZCommonTools tz_safeAreaInsets].bottom, self.view.tz_width, 140);
+    toolBarHeight = 140 + [TZCommonTools tz_safeAreaInsets].bottom;
+    if (self.navigationController.navigationBar.isTranslucent) {
+        top = naviBarHeight;
+        if (!isStatusBarHidden && isFullScreen) top += [TZCommonTools tz_statusBarHeight];
+        collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight - top : self.view.tz_height - top;;
+    } else {
+        collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight : self.view.tz_height;
+    }
+    _collectionView.frame = CGRectMake(0, top, self.view.tz_width, collectionViewHeight);
+    _noDataLabel.frame = _collectionView.bounds;
 }
 
 #pragma mark - Notification

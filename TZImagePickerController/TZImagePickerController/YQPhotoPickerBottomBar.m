@@ -118,7 +118,7 @@
         if (tzImagePickerVc.showSelectedIndex || tzImagePickerVc.showPhotoCannotSelectLayer) {
             [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_RELOAD_NOTIFICATION" object:tzImagePickerVc];
         }
-        TZPhotoPickerController *photoPickerVc =  (TZPhotoPickerController *)weakSelf.parentViewController;
+        TZPhotoPickerController *photoPickerVc = (TZPhotoPickerController *)weakSelf.parentViewController;
         [photoPickerVc deSelectWithModel:model];
     };
     return cell;

@@ -89,6 +89,15 @@
     });
 }
 
+- (void)updateSelectedState {
+    if (!self.superview) { return; }
+    TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
+    for (TZAlbumModel *albumModel in self->_albumArr) {
+        albumModel.selectedModels = imagePickerVc.selectedModels;
+    }
+    [self->_tableView reloadData];
+}
+
 - (void)dealloc {
     [[PHPhotoLibrary sharedPhotoLibrary] unregisterChangeObserver:self];
 //     NSLog(@"%@ dealloc",NSStringFromClass(self.class));

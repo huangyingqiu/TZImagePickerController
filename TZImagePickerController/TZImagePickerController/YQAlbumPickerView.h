@@ -15,6 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, assign) BOOL isFirstAppear;
 @property (nonatomic, weak) UIViewController *parentViewController;
 - (void)configTableView;
+- (void)updateSelectedState;
 @end
 
 @class TZAlbumModel;

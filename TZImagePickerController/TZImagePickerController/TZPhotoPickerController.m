@@ -170,6 +170,7 @@ static CGFloat itemMargin = 5;
     deSelectModel.isSelected = NO;
     NSIndexPath *deSelectIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
     [self.collectionView reloadItemsAtIndexPaths:@[deSelectIndexPath]];
+    [self.albumPickerView updateSelectedState];
 }
 
 - (void)fetchAssetModels {

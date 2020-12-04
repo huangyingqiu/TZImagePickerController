@@ -114,10 +114,10 @@ static CGFloat itemMargin = 5;
     self.operationQueue = [[NSOperationQueue alloc] init];
     self.operationQueue.maxConcurrentOperationCount = 3;
     
-    [self setupNavigationTitleView];
+    [self setupNavigationItem];
 }
 
-- (void)setupNavigationTitleView {
+- (void)setupNavigationItem {
     YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
     titleView.title = _model.name;
     
@@ -149,6 +149,21 @@ static CGFloat itemMargin = 5;
         }
     };
     self.navigationItem.titleView = titleView;
+    
+    // leftBarButtonItem
+    UIButton *leftButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 35)];
+    [leftButton setImage:[UIImage tz_imageNamedFromMyBundle:@"navi_back"] forState:UIControlStateNormal];
+    [leftButton addTarget:self action:@selector(clickNavLeftButton) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
+    [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
+    // rightBarButtonItem
+    self.navigationItem.rightBarButtonItem = nil;
+}
+
+- (void)clickNavLeftButton {
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+    [tzImagePickerVc cancelButtonClick];
+    NSLog(@">>>>: click!!!!!");
 }
 
 - (void)resetData {

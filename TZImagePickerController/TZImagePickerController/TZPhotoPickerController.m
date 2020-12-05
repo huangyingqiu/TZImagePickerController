@@ -181,6 +181,9 @@ static CGFloat itemMargin = 5;
 
 - (void)deSelectWithModel:(TZAssetModel *)model {
     NSInteger index = [_models indexOfObject:model];
+    if (index >= _models.count) {
+        return;
+    }
     TZAssetModel *deSelectModel = _models[index];
     deSelectModel.isSelected = NO;
     NSIndexPath *deSelectIndexPath = [NSIndexPath indexPathForRow:index inSection:0];

@@ -124,29 +124,8 @@ static CGFloat itemMargin = 5;
     self.albumPickerView = [[YQAlbumPickerView alloc] init];
     self.albumPickerView.parentViewController = self;
     __weak typeof(self) weakSelf = self;
-    __weak typeof(YQCustomTitleView *) weakTitleView = titleView;
     titleView.didClick = ^{
-        if (!weakSelf.albumPickerView.superview) {
-            [weakSelf.albumPickerView configTableView];
-//            [weakSelf.view addSubview:weakSelf.albumPickerView];
-            [weakSelf.view insertSubview:weakSelf.albumPickerView belowSubview:self->_bottomToolBar];
-            
-            CGFloat topHeight = weakSelf.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
-            weakSelf.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
-            [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.albumPickerView setTz_height:weakSelf.view.tz_height - topHeight - self->_bottomToolBar.tz_height];
-                [weakSelf.albumPickerView layoutSubviews];
-            } completion:^(BOOL finished) {
-                weakTitleView.isSelected = YES;
-            }];
-        } else {
-            [UIView animateWithDuration:0.25 animations:^{
-                [weakSelf.albumPickerView setTz_height:0];
-            } completion:^(BOOL finished) {
-                [weakSelf.albumPickerView removeFromSuperview];
-                weakTitleView.isSelected = NO;
-            }];
-        }
+        [weakSelf handleTitleViewClick];
     };
     self.navigationItem.titleView = titleView;
     
@@ -160,10 +139,33 @@ static CGFloat itemMargin = 5;
     self.navigationItem.rightBarButtonItem = nil;
 }
 
+- (void)handleTitleViewClick {
+    YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
+    if (!self.albumPickerView.superview) {
+        [self.albumPickerView configTableView];
+        [self.view insertSubview:self.albumPickerView belowSubview:self->_bottomToolBar];
+
+        CGFloat topHeight = self.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
+        self.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.albumPickerView setTz_height:self.view.tz_height - topHeight - self->_bottomToolBar.tz_height];
+            [self.albumPickerView layoutSubviews];
+        } completion:^(BOOL finished) {
+            titleView.isSelected = YES;
+        }];
+    } else {
+        [UIView animateWithDuration:0.25 animations:^{
+            [self.albumPickerView setTz_height:0];
+        } completion:^(BOOL finished) {
+            [self.albumPickerView removeFromSuperview];
+            titleView.isSelected = NO;
+        }];
+    }
+}
+
 - (void)clickNavLeftButton {
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     [tzImagePickerVc cancelButtonClick];
-    NSLog(@">>>>: click!!!!!");
 }
 
 - (void)resetData {

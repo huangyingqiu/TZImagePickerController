@@ -181,7 +181,7 @@
     
     [_originalPhotoButton addSubview:_originalPhotoLabel];
     [_toolBar addSubview:_doneButton];
-    [_toolBar addSubview:_originalPhotoButton];
+//    [_toolBar addSubview:_originalPhotoButton];
     [_toolBar addSubview:_numberImageView];
     [_toolBar addSubview:_numberLabel];
     [self.view addSubview:_toolBar];
@@ -431,9 +431,10 @@
 }
 
 - (void)didTapPreviewCell {
-    self.isHideNaviBar = !self.isHideNaviBar;
-    _naviBar.hidden = self.isHideNaviBar;
-    _toolBar.hidden = self.isHideNaviBar;
+//    self.isHideNaviBar = !self.isHideNaviBar;
+//    _naviBar.hidden = self.isHideNaviBar;
+//    _toolBar.hidden = self.isHideNaviBar;
+    [self backButtonClick];
 }
 
 #pragma mark - UIScrollViewDelegate

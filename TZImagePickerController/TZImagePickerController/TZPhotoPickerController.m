@@ -190,15 +190,22 @@ static CGFloat itemMargin = 5;
 }
 
 - (void)deSelectWithModel:(TZAssetModel *)model {
-    NSInteger index = [_models indexOfObject:model];
-    if (index >= _models.count) {
+    [self.albumPickerView updateSelectedState];
+    NSInteger index = -1;
+    for (NSInteger i = 0; i < _models.count; i++) {
+        TZAssetModel *tempModel = _models[i];
+        if ([tempModel.asset.localIdentifier isEqualToString:model.asset.localIdentifier]) {
+            index = i;
+            break;
+        }
+    }
+    if (index >= _models.count || index == -1) {
         return;
     }
     TZAssetModel *deSelectModel = _models[index];
     deSelectModel.isSelected = NO;
     NSIndexPath *deSelectIndexPath = [NSIndexPath indexPathForRow:index inSection:0];
     [self.collectionView reloadItemsAtIndexPaths:@[deSelectIndexPath]];
-    [self.albumPickerView updateSelectedState];
 }
 
 - (void)fetchAssetModels {

@@ -140,7 +140,7 @@ static CGFloat itemMargin = 5;
 }
 
 - (void)handleTitleViewClick {
-    YQCustomTitleView *titleView = [[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
+    YQCustomTitleView *titleView = (YQCustomTitleView *)self.navigationItem.titleView;//[[YQCustomTitleView alloc] initWithFrame: CGRectMake(0, 0, 200, 30)];
     if (!self.albumPickerView.superview) {
         [self.albumPickerView configTableView];
         [self.view insertSubview:self.albumPickerView belowSubview:self->_bottomToolBar];

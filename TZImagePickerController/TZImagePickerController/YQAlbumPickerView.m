@@ -31,11 +31,7 @@
     if (self) {
         [[PHPhotoLibrary sharedPhotoLibrary] registerChangeObserver:self];
         self.isFirstAppear = YES;
-        if (@available(iOS 13.0, *)) {
-            self.backgroundColor = UIColor.tertiarySystemBackgroundColor;
-        } else {
-            self.backgroundColor = [UIColor whiteColor];
-        }
+        self.backgroundColor = [UIColor blackColor];
     }
     return self;
 }
@@ -66,13 +62,10 @@
                 
                 if (!self->_tableView) {
                     self->_tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
-                    self->_tableView.rowHeight = 70;
-                    if (@available(iOS 13.0, *)) {
-                        self->_tableView.backgroundColor = [UIColor tertiarySystemBackgroundColor];
-                    } else {
-                        self->_tableView.backgroundColor = [UIColor whiteColor];
-                    }
+                    self->_tableView.rowHeight = 88;
+                    self->_tableView.backgroundColor = [UIColor blackColor];
                     [self->_tableView setSeparatorInset:UIEdgeInsetsMake(0, 100, 0, 0)];
+                    [self->_tableView setSeparatorColor:[UIColor colorWithRed:51/255.0 green:51/255.0 blue:51/255.0 alpha:1.0]];
                     self->_tableView.tableFooterView = [[UIView alloc] init];
                     self->_tableView.dataSource = self;
                     self->_tableView.delegate = self;
@@ -131,9 +124,6 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     YQAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YQAlbumCell"];
-    if (@available(iOS 13.0, *)) {
-        cell.backgroundColor = UIColor.tertiarySystemBackgroundColor;
-    }
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
 //    cell.albumCellDidLayoutSubviewsBlock = imagePickerVc.albumCellDidLayoutSubviewsBlock;
 //    cell.albumCellDidSetModelBlock = imagePickerVc.albumCellDidSetModelBlock;
@@ -157,10 +147,6 @@
     }];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 88;
-}
-
 @end
 
 
@@ -174,21 +160,13 @@
 
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    self.backgroundColor = [UIColor whiteColor];
-//    self.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    self.backgroundColor = [UIColor blackColor];
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
     return self;
 }
 
 - (void)setModel:(TZAlbumModel *)model {
     _model = model;
-//    UIColor *nameColor = UIColor.blackColor;
-//    if (@available(iOS 13.0, *)) {
-//        nameColor = UIColor.labelColor;
-//    }
-//    NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:model.name attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:nameColor}];
-//    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%zd)",model.count] attributes:@{NSFontAttributeName:[UIFont systemFontOfSize:16],NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
-//    [nameString appendAttributedString:countString];
-//    self.titleLabel.attributedText = nameString;
     self.titleLabel.text = model.name;
     self.countLabel.text = [NSString stringWithFormat:@"%zd",model.count];
     [[TZImageManager manager] getPostImageWithAlbumModel:model completion:^(UIImage *postImage) {
@@ -236,11 +214,7 @@
     if (_titleLabel == nil) {
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont systemFontOfSize:16];
-        if (@available(iOS 13.0, *)) {
-            titleLabel.textColor = UIColor.labelColor;
-        } else {
-            titleLabel.textColor = [UIColor blackColor];
-        }
+        titleLabel.textColor = [UIColor whiteColor];
         titleLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:titleLabel];
         _titleLabel = titleLabel;
@@ -252,11 +226,7 @@
     if (_countLabel == nil) {
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.font = [UIFont systemFontOfSize:14];
-        if (@available(iOS 13.0, *)) {
-            titleLabel.textColor = UIColor.labelColor;
-        } else {
-            titleLabel.textColor = [UIColor blackColor];
-        }
+        titleLabel.textColor = [UIColor colorWithRed:153/255.0 green:153/255.0 blue:153/255.0 alpha:1.0];
         titleLabel.textAlignment = NSTextAlignmentLeft;
         [self.contentView addSubview:titleLabel];
         _countLabel = titleLabel;

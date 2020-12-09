@@ -144,8 +144,7 @@ static CGFloat itemMargin = 5;
     if (!self.albumPickerView.superview) {
         [self.albumPickerView configTableView];
         [self.view insertSubview:self.albumPickerView belowSubview:self->_bottomToolBar];
-
-        CGFloat topHeight = self.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight];
+        CGFloat topHeight = self.navigationController.navigationBar.isTranslucent ? self.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight] : 0;
         self.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
         [UIView animateWithDuration:0.25 animations:^{
             [self.albumPickerView setTz_height:self.view.tz_height - topHeight - self->_bottomToolBar.tz_height];
@@ -509,6 +508,7 @@ static CGFloat itemMargin = 5;
         if (!isStatusBarHidden && isFullScreen) top += [TZCommonTools tz_statusBarHeight];
         collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight - top : self.view.tz_height - top;;
     } else {
+        top = 0;
         collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight : self.view.tz_height;
     }
     _collectionView.frame = CGRectMake(0, top, self.view.tz_width, collectionViewHeight);

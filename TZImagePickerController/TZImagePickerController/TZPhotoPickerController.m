@@ -21,6 +21,7 @@
 #import "YQCustomTitleView.h"
 #import "YQAlbumPickerView.h"
 #import "YQPhotoPickerBottomBar.h"
+#import "YQShowMediaTypeView.h"
 
 @interface TZPhotoPickerController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate, PHPhotoLibraryChangeObserver> {
     NSMutableArray *_models;
@@ -50,6 +51,7 @@
 @property (nonatomic, assign) BOOL isSavingMedia;
 @property (nonatomic, assign) BOOL isFetchingMedia;
 @property (nonatomic, strong) YQAlbumPickerView *albumPickerView;
+@property (nonatomic, strong) YQShowMediaTypeView *mediaTypeView;
 @end
 
 static CGSize AssetGridThumbnailSize;
@@ -222,6 +224,7 @@ static CGFloat itemMargin = 5;
         [tzImagePickerVc hideProgressHUD];
         
         [self checkSelectedModels];
+        [self configMediaTypeView];
         [self configCollectionView];
         self->_collectionView.hidden = YES;
         [self configBottomToolBar];
@@ -416,6 +419,20 @@ static CGFloat itemMargin = 5;
     }
 }
 
+- (void)configMediaTypeView {
+    self.mediaTypeView = [[YQShowMediaTypeView alloc] init];
+    BOOL isStatusBarHidden = [UIApplication sharedApplication].isStatusBarHidden;
+    BOOL isFullScreen = self.view.tz_height == [UIScreen mainScreen].bounds.size.height;
+    CGFloat top = self.navigationController.navigationBar.tz_height;
+    if (self.navigationController.navigationBar.isTranslucent) {
+        if (!isStatusBarHidden && isFullScreen) top += [TZCommonTools tz_statusBarHeight];
+        self.mediaTypeView.frame = CGRectMake(0, top, self.view.tz_width, 40);
+    } else {
+        self.mediaTypeView.frame = CGRectMake(0, 0, self.view.tz_width, 40);
+    }
+    [self.view addSubview:self.mediaTypeView];
+}
+
 #pragma mark - Layout
 
 - (void)viewDidLayoutSubviews {
@@ -500,13 +517,12 @@ static CGFloat itemMargin = 5;
     _bottomToolBar.frame = CGRectMake(0, self.view.tz_height - 140 - [TZCommonTools tz_safeAreaInsets].bottom, self.view.tz_width, 140);
     toolBarHeight = 140 + [TZCommonTools tz_safeAreaInsets].bottom;
     if (self.navigationController.navigationBar.isTranslucent) {
-        top = naviBarHeight;
+        top = naviBarHeight + self.mediaTypeView.tz_height;
         if (!isStatusBarHidden && isFullScreen) top += [TZCommonTools tz_statusBarHeight];
-        collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight - top : self.view.tz_height - top;;
     } else {
-        top = 0;
-        collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight : self.view.tz_height;
+        top = self.mediaTypeView.tz_height;
     }
+    collectionViewHeight = tzImagePickerVc.showSelectBtn ? self.view.tz_height - toolBarHeight - top : self.view.tz_height - top;
     _collectionView.frame = CGRectMake(0, top, self.view.tz_width, collectionViewHeight);
     _noDataLabel.frame = _collectionView.bounds;
 }

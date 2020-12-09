@@ -83,6 +83,9 @@
 		E3C36B9C257788E900227F8B /* YQBottomBarCollectionViewCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E3C36B9A257788E900227F8B /* YQBottomBarCollectionViewCell.h */; };
 		E3C36B9D257788E900227F8B /* YQBottomBarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B9B257788E900227F8B /* YQBottomBarCollectionViewCell.m */; };
 		E3C36B9E257788E900227F8B /* YQBottomBarCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3C36B9B257788E900227F8B /* YQBottomBarCollectionViewCell.m */; };
+		E3E2D4CC25809C2500A222D6 /* YQShowMediaTypeView.h in Headers */ = {isa = PBXBuildFile; fileRef = E3E2D4CA25809C2500A222D6 /* YQShowMediaTypeView.h */; };
+		E3E2D4CD25809C2500A222D6 /* YQShowMediaTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E2D4CB25809C2500A222D6 /* YQShowMediaTypeView.m */; };
+		E3E2D4CE25809C2500A222D6 /* YQShowMediaTypeView.m in Sources */ = {isa = PBXBuildFile; fileRef = E3E2D4CB25809C2500A222D6 /* YQShowMediaTypeView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,6 +204,8 @@
 		E3C36B90257780F000227F8B /* YQPhotoPickerBottomBar.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YQPhotoPickerBottomBar.m; sourceTree = "<group>"; };
 		E3C36B9A257788E900227F8B /* YQBottomBarCollectionViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YQBottomBarCollectionViewCell.h; sourceTree = "<group>"; };
 		E3C36B9B257788E900227F8B /* YQBottomBarCollectionViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YQBottomBarCollectionViewCell.m; sourceTree = "<group>"; };
+		E3E2D4CA25809C2500A222D6 /* YQShowMediaTypeView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YQShowMediaTypeView.h; sourceTree = "<group>"; };
+		E3E2D4CB25809C2500A222D6 /* YQShowMediaTypeView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YQShowMediaTypeView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -323,6 +328,8 @@
 		900EEFF51C2BBF7600EA709B /* TZImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				E3E2D4CA25809C2500A222D6 /* YQShowMediaTypeView.h */,
+				E3E2D4CB25809C2500A222D6 /* YQShowMediaTypeView.m */,
 				E3C36B9A257788E900227F8B /* YQBottomBarCollectionViewCell.h */,
 				E3C36B9B257788E900227F8B /* YQBottomBarCollectionViewCell.m */,
 				E3C36B8F257780F000227F8B /* YQPhotoPickerBottomBar.h */,
@@ -417,6 +424,7 @@
 				9F763A741FA0741D00D9E526 /* TZGifPhotoPreviewController.h in Headers */,
 				9F763A761FA0741D00D9E526 /* TZImageManager.h in Headers */,
 				9F763A781FA0741D00D9E526 /* TZLocationManager.h in Headers */,
+				E3E2D4CC25809C2500A222D6 /* YQShowMediaTypeView.h in Headers */,
 				9F763A711FA0741D00D9E526 /* TZPhotoPreviewController.h in Headers */,
 				9F763A721FA0741D00D9E526 /* TZPhotoPreviewCell.h in Headers */,
 				E3C36B91257780F000227F8B /* YQPhotoPickerBottomBar.h in Headers */,
@@ -607,6 +615,7 @@
 				9038D5911C3974F0007DE549 /* TZTestCell.m in Sources */,
 				900EF00F1C2C0B1100EA709B /* TZAssetModel.m in Sources */,
 				900EEFFE1C2BD58B00EA709B /* TZPhotoPickerController.m in Sources */,
+				E3E2D4CD25809C2500A222D6 /* YQShowMediaTypeView.m in Sources */,
 				90EBF5D61C2E298000CB9BCC /* UIView+Layout.m in Sources */,
 				90CE84B71C3BABB6003D0779 /* TZVideoPlayerController.m in Sources */,
 				900EF0021C2BD7E400EA709B /* TZAssetCell.m in Sources */,
@@ -669,6 +678,7 @@
 				9F763A601FA072E500D9E526 /* TZProgressView.m in Sources */,
 				9F763A621FA072E500D9E526 /* TZImageManager.m in Sources */,
 				9F763A641FA072E500D9E526 /* TZImageCropManager.m in Sources */,
+				E3E2D4CE25809C2500A222D6 /* YQShowMediaTypeView.m in Sources */,
 				9F763A661FA072E500D9E526 /* TZLocationManager.m in Sources */,
 				9F763A681FA072E500D9E526 /* UIView+Layout.m in Sources */,
 				9F763A6A1FA072E500D9E526 /* NSBundle+TZImagePicker.m in Sources */,

@@ -266,9 +266,9 @@
     TZImagePickerController *imagePickerVc = [[TZImagePickerController alloc] initWithMaxImagesCount:self.maxCountTF.text.integerValue columnNumber:self.columnNumberTF.text.integerValue delegate:self pushPhotoPickerVc:YES];
     // imagePickerVc.barItemTextColor = [UIColor blackColor];
     // [imagePickerVc.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
-    // imagePickerVc.navigationBar.tintColor = [UIColor blackColor];
-    // imagePickerVc.naviBgColor = [UIColor whiteColor];
-    // imagePickerVc.navigationBar.translucent = NO;
+//     imagePickerVc.navigationBar.tintColor = [UIColor blackColor];
+     imagePickerVc.naviBgColor = [UIColor blackColor];
+     imagePickerVc.navigationBar.translucent = NO;
     
 //    __weak typeof(self) weakSelf = self;
 //    imagePickerVc.photoPickerPageDidLayoutSubviewsBlock = ^(UICollectionView *collectionView, UIView *bottomToolBar, UIButton *previewButton, UIButton *originalPhotoButton, UILabel *originalPhotoLabel, UIButton *doneButton, UIImageView *numberImageView, UILabel *numberLabel, UIView *divideLine) {

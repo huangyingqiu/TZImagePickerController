@@ -170,12 +170,19 @@ static CGFloat itemMargin = 5;
 }
 
 - (void)resetData {
+    self->_models = [NSMutableArray arrayWithArray:self->_model.models];
+    _shouldScrollToBottom = YES;
+    
+    [self checkSelectedModels];
+    [self.collectionView reloadData];
+    self->_collectionView.hidden = YES;
+    [self scrollCollectionViewToBottom];    
+}
+
+- (void)updateTitleView {
     YQCustomTitleView *titleView = (YQCustomTitleView *)self.navigationItem.titleView;
     titleView.title = _model.name;
     titleView.isSelected = NO;
-    self->_models = [NSMutableArray arrayWithArray:self->_model.models];
-    _shouldScrollToBottom = YES;
-    [self initSubviews];
 }
 
 - (void)collectionViewReload {

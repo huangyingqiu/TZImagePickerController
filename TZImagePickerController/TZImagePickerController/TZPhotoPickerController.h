@@ -17,6 +17,7 @@
 - (void)resetData;
 - (void)deSelectWithModel:(TZAssetModel *)model;
 - (void)collectionViewReload;
+- (void)updateTitleView;
 @end
 
 

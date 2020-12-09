@@ -125,21 +125,20 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     YQAlbumCell *cell = [tableView dequeueReusableCellWithIdentifier:@"YQAlbumCell"];
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.parentViewController.navigationController;
-//    cell.albumCellDidLayoutSubviewsBlock = imagePickerVc.albumCellDidLayoutSubviewsBlock;
-//    cell.albumCellDidSetModelBlock = imagePickerVc.albumCellDidSetModelBlock;
     cell.selectedCountButton.backgroundColor = imagePickerVc.iconThemeColor;
     cell.model = _albumArr[indexPath.row];
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    TZPhotoPickerController *photoPickerVc = (TZPhotoPickerController *)self.parentViewController;//[[TZPhotoPickerController alloc] init];
+    TZPhotoPickerController *photoPickerVc = (TZPhotoPickerController *)self.parentViewController;
 //    photoPickerVc.columnNumber = self.columnNumber;
     TZAlbumModel *model = _albumArr[indexPath.row];
-    photoPickerVc.model = model;
-    [photoPickerVc resetData];
-//    [self.navigationController pushViewController:photoPickerVc animated:YES];
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    if (![photoPickerVc.model.name isEqualToString:model.name]) {
+        photoPickerVc.model = model;
+        [photoPickerVc resetData];
+    }
+    [photoPickerVc updateTitleView];
     [UIView animateWithDuration:0.25 animations:^{
         [self setTz_height:0];
     } completion:^(BOOL finished) {

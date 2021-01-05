@@ -149,7 +149,7 @@ static CGFloat itemMargin = 5;
         CGFloat topHeight = self.navigationController.navigationBar.isTranslucent ? self.navigationController.navigationBar.tz_height + [TZCommonTools tz_statusBarHeight] : 0;
         self.albumPickerView.frame = CGRectMake(0, topHeight, [UIScreen mainScreen].bounds.size.width, 0);
         [UIView animateWithDuration:0.25 animations:^{
-            [self.albumPickerView setTz_height:self.view.tz_height - topHeight - self->_bottomToolBar.tz_height];
+            [self.albumPickerView setTz_height:self.view.tz_height - topHeight - self->_bottomToolBar.tz_height - [TZCommonTools tz_safeAreaInsets].bottom];
             [self.albumPickerView layoutSubviews];
         } completion:^(BOOL finished) {
             titleView.isSelected = YES;
@@ -517,8 +517,10 @@ static CGFloat itemMargin = 5;
         YQPhotoPickerBottomBar *bottomBar = [[YQPhotoPickerBottomBar alloc] init];
         __weak typeof(self) weakSelf = self;
         bottomBar.parentViewController = self;
+        [_bottomToolBar removeFromSuperview];
         _bottomToolBar = bottomBar;
         [self.view addSubview:_bottomToolBar];
+        self.view.backgroundColor = bottomBar.backgroundColor;
         bottomBar.didClickDoneButton = ^{
             [weakSelf doneButtonClick];
         };

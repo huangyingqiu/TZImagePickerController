@@ -307,6 +307,10 @@
     TZImagePickerController *_tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     TZAssetModel *model = _models[self.currentIndex];
     if (!selectButton.isSelected) {
+        if (model.asset.pixelWidth < _tzImagePickerVc.minPhotoWidthSelectable || model.asset.pixelHeight < _tzImagePickerVc.minPhotoHeightSelectable) {
+            [_tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Unable to select min photo"]];
+            return;
+        }
         // 1. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
         if (_tzImagePickerVc.selectedModels.count >= _tzImagePickerVc.maxImagesCount) {
             NSString *title = [NSString stringWithFormat:[NSBundle tz_localizedStringForKey:@"Select a maximum of %zd photos"], _tzImagePickerVc.maxImagesCount];

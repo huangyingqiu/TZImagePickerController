@@ -804,6 +804,10 @@ static CGFloat itemMargin = 5;
         index = indexPath.item - 1;
     }
     TZAssetModel *model = _models[index];
+    if (model.asset.pixelWidth < tzImagePickerVc.minPhotoWidthSelectable || model.asset.pixelHeight < tzImagePickerVc.minPhotoHeightSelectable) {
+        [tzImagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Unable to select min photo"]];
+        return;
+    }
     if (model.type == TZAssetModelMediaTypeVideo && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;

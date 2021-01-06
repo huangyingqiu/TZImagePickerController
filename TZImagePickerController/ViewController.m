@@ -332,6 +332,10 @@
     // imagePickerVc.minPhotoWidthSelectable = 3000;
     // imagePickerVc.minPhotoHeightSelectable = 2000;
     
+    // 宽高小于100像素地图片不能选择
+    imagePickerVc.minPhotoWidthSelectable = 100;
+    imagePickerVc.minPhotoHeightSelectable = 100;
+    
     /// 5. Single selection mode, valid when maxImagesCount = 1
     /// 5. 单选模式,maxImagesCount为1时才生效
     imagePickerVc.showSelectBtn = NO;

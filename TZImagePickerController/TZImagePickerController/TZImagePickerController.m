@@ -1008,6 +1008,8 @@
         preferredLanguage = @"zh-Hant";
     } else if ([preferredLanguage rangeOfString:@"vi"].location != NSNotFound) {
         preferredLanguage = @"vi";
+    } else if ([preferredLanguage rangeOfString:@"km"].location != NSNotFound) {
+        preferredLanguage = @"km";
     } else {
         preferredLanguage = @"en";
     }

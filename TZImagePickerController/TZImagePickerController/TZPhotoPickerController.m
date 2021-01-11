@@ -138,7 +138,10 @@ static CGFloat itemMargin = 5;
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:leftButton];
     [leftButton setImageEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
     // rightBarButtonItem
-    self.navigationItem.rightBarButtonItem = nil;
+    UIButton *rightButton = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 35)];
+    [rightButton setImage:nil forState:UIControlStateNormal];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:rightButton];
+    [rightButton setImageEdgeInsets:UIEdgeInsetsMake(0, -50, 0, 0)];
 }
 
 - (void)handleTitleViewClick {

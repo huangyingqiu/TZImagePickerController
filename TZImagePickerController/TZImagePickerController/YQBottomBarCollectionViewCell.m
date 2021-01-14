@@ -16,6 +16,8 @@
 
 @property (nonatomic, strong) UIButton *deleteButton;
 
+@property (nonatomic, strong) UIView *colorCoverView;
+
 @end
 
 @implementation YQBottomBarCollectionViewCell
@@ -102,9 +104,11 @@
     if (needShowBorder) {
         self.contentView.layer.borderColor = self.themeColor.CGColor;
         self.contentView.layer.borderWidth = 2;
+        self.colorCoverView.hidden = NO;
     } else {
         self.contentView.layer.borderColor = [UIColor clearColor].CGColor;
         self.contentView.layer.borderWidth = 0;
+        self.colorCoverView.hidden = YES;
     }
 }
 
@@ -123,6 +127,17 @@
         [_deleteButton addTarget:self action:@selector(clickDeleteButton) forControlEvents:UIControlEventTouchUpInside];
     }
     return _deleteButton;
+}
+
+- (UIView *)colorCoverView {
+    if (!_colorCoverView) {
+        _colorCoverView = [[UIView alloc] init];
+        _colorCoverView.backgroundColor = [UIColor colorWithRed:59/255.0 green:195/255.0 blue:255/255.0 alpha:0.1];
+        [self.contentView addSubview:_colorCoverView];
+        _colorCoverView.frame = self.contentView.bounds;
+        _colorCoverView.hidden = YES;
+    }
+    return  _colorCoverView;
 }
 
 @end

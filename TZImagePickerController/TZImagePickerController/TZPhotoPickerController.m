@@ -765,6 +765,7 @@ static CGFloat itemMargin = 5;
                 [tzImagePickerVc showAlertWithTitle:title];
             }
         } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"TZ_PHOTO_PICKER_SELECT_NOTIFICATION" object:nil];
             // 2. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
             if (tzImagePickerVc.selectedModels.count < tzImagePickerVc.maxImagesCount) {
                 if (!tzImagePickerVc.allowPreview) {

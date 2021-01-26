@@ -214,7 +214,7 @@ static CGFloat itemMargin = 5;
 - (void)fetchAssetModels {
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
     if (_isFirstAppear && !_model.models.count) {
-        [tzImagePickerVc showProgressHUD];
+//        [tzImagePickerVc showProgressHUD];
     }
     dispatch_async(dispatch_get_global_queue(0, 0), ^{
         if (!tzImagePickerVc.sortAscendingByModificationDate && self->_isFirstAppear && self->_model.isCameraRoll) {

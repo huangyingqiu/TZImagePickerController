@@ -10,7 +10,7 @@
 #import "YQBottomBarCollectionViewCell.h"
 #import "TZImagePickerController.h"
 #import "TZPhotoPickerController.h"
-#import "UIView+Layout.h"
+#import "UIView+TZLayout.h"
 
 @interface YQPhotoPickerBottomBar() <UICollectionViewDelegate, UICollectionViewDataSource>
 

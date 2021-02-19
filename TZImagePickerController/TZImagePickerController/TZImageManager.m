@@ -236,6 +236,10 @@ static dispatch_once_t onceToken;
     if ([self.pickerDelegate respondsToSelector:@selector(isAssetCanSelect:)]) {
         canSelect = [self.pickerDelegate isAssetCanSelect:asset];
     }
+    if ([self.pickerDelegate respondsToSelector:@selector(isAssetCanBeDisplayed:)]){
+        canSelect = [self.pickerDelegate isAssetCanBeDisplayed:asset];
+    }
+    
     if (!canSelect) return nil;
     
     TZAssetModel *model;
@@ -463,10 +467,10 @@ static dispatch_once_t onceToken;
         [option setProgressHandler:progressHandler];
     }
     option.resizeMode = PHImageRequestOptionsResizeModeFast;
-    return [[PHImageManager defaultManager] requestImageForAsset:asset targetSize:PHImageManagerMaximumSize contentMode:PHImageContentModeAspectFit options:option resultHandler:^(UIImage *result, NSDictionary *info) {
+    return [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
         BOOL cancelled = [[info objectForKey:PHImageCancelledKey] boolValue];
-        if (!cancelled && result) {
-            result = [self fixOrientation:result];
+        if (!cancelled && imageData) {
+            UIImage *result = [self fixOrientation:[UIImage imageWithData:imageData]];
             BOOL isDegraded = [[info objectForKey:PHImageResultIsDegradedKey] boolValue];
             if (completion) completion(result,info,isDegraded);
         }
@@ -720,7 +724,7 @@ static dispatch_once_t onceToken;
 - (void)requestVideoURLWithAsset:(PHAsset *)asset success:(void (^)(NSURL *videoURL))success failure:(void (^)(NSDictionary* info))failure {
     [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:[self getVideoRequestOptions] resultHandler:^(AVAsset* avasset, AVAudioMix* audioMix, NSDictionary* info){
         // NSLog(@"AVAsset URL: %@",myAsset.URL);
-        if ([asset isKindOfClass:[AVURLAsset class]]) {
+        if ([avasset isKindOfClass:[AVURLAsset class]]) {
             NSURL *url = [(AVURLAsset *)avasset URL];
             if (success) {
                 success(url);
@@ -803,6 +807,15 @@ static dispatch_once_t onceToken;
         return NO;
     }
     return YES;
+}
+
+/// 检查照片能否被选中
+- (BOOL)isAssetCannotBeSelected:(PHAsset *)asset {
+    if ([self.pickerDelegate respondsToSelector:@selector(isAssetCanBeSelected:)]) {
+        BOOL canSelectAsset = [self.pickerDelegate isAssetCanBeSelected:asset];
+        return !canSelectAsset;
+    }
+    return NO;
 }
 
 #pragma mark - Private Method

@@ -13,7 +13,7 @@
 #import "TZPhotoPickerController.h"
 #import "TZAssetCell.h"
 #import "TZAssetModel.h"
-#import "UIView+Layout.h"
+#import "UIView+TZLayout.h"
 #import "TZImageManager.h"
 
 @interface YQAlbumPickerView ()<UITableViewDataSource, UITableViewDelegate, PHPhotoLibraryChangeObserver> {

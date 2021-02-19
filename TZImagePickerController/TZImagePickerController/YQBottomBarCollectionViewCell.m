@@ -8,7 +8,7 @@
 
 #import "YQBottomBarCollectionViewCell.h"
 #import "TZImagePickerController.h"
-#import "UIView+Layout.h"
+#import "UIView+TZLayout.h"
 
 @interface YQBottomBarCollectionViewCell()
 

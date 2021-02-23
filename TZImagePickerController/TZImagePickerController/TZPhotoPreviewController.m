@@ -315,6 +315,8 @@
             // 2. if not over the maxImagesCount / 如果没有超过最大个数限制
         } else {
             if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
+                NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
+                [_tzImagePickerVc showAlertWithTitle:title];
                 return;
             }
             [_tzImagePickerVc addSelectedModel:model];
@@ -394,6 +396,8 @@
     if (_tzImagePickerVc.selectedModels.count == 0 && _tzImagePickerVc.minImagesCount <= 0 && _tzImagePickerVc.autoSelectCurrentWhenDone) {
         TZAssetModel *model = _models[self.currentIndex];
         if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
+            NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
+            [_tzImagePickerVc showAlertWithTitle:title];
             return;
         }
         [self select:_selectButton];

@@ -815,6 +815,25 @@ static dispatch_once_t onceToken;
         BOOL canSelectAsset = [self.pickerDelegate isAssetCanBeSelected:asset];
         return !canSelectAsset;
     }
+    // 如果iCloud还没下载好，不允许选择
+    if (asset.mediaType == PHAssetMediaTypeVideo) {
+        PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
+        options.version = PHVideoRequestOptionsVersionOriginal;
+        __block BOOL cannotBeSelected = NO;
+        dispatch_semaphore_t sema = dispatch_semaphore_create(0);
+        [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:options resultHandler:^(AVAsset *avasset, AVAudioMix *audioMix, NSDictionary *info) {
+            AVURLAsset* urlAsset = (AVURLAsset*)avasset;
+            NSNumber *size;
+            [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
+            if (size.floatValue <= 0) {
+                cannotBeSelected = YES;
+            }
+            NSLog(@">>>>: size is %f",[size floatValue]/(1024.0*1024.0));
+            dispatch_semaphore_signal(sema);
+        }];
+        dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
+        return cannotBeSelected;
+    }
     return NO;
 }
 

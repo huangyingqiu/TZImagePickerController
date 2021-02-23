@@ -1006,9 +1006,11 @@
         preferredLanguage = @"zh-Hans";
     } else if ([preferredLanguage rangeOfString:@"zh-Hant"].location != NSNotFound) {
         preferredLanguage = @"zh-Hant";
-    } else if ([preferredLanguage rangeOfString:@"vi"].location != NSNotFound) {
-        preferredLanguage = @"vi";
-    } else {
+    } else if ([preferredLanguage rangeOfString:@"km"].location != NSNotFound) {
+        preferredLanguage = @"km";
+    } else if ([preferredLanguage rangeOfString:@"th"].location != NSNotFound) {
+        preferredLanguage = @"th";
+    }else {
         preferredLanguage = @"en";
     }
     _languageBundle = [NSBundle bundleWithPath:[[NSBundle tz_imagePickerBundle] pathForResource:preferredLanguage ofType:@"lproj"]];

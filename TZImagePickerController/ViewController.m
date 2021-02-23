@@ -661,35 +661,35 @@
 
 // Decide asset can be selected
 // 决定照片能否被选中
-- (BOOL)isAssetCanBeSelected:(PHAsset *)asset {
-    /*
-    switch (asset.mediaType) {
-        case PHAssetMediaTypeVideo: {
-            // 视频时长
-            // NSTimeInterval duration = phAsset.duration;
-            return NO;
-        } break;
-        case PHAssetMediaTypeImage: {
-            // 图片尺寸
-            if (asset.pixelWidth > 3000 || asset.pixelHeight > 3000) {
-                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"不支持选择超大图片" message:nil preferredStyle:UIAlertControllerStyleAlert];
-                [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
-                [self.presentedViewController presentViewController:alertController animated:YES completion:nil];
-                return NO;
-            }
-            return YES;
-        } break;
-        case PHAssetMediaTypeAudio:
-            return NO;
-            break;
-        case PHAssetMediaTypeUnknown:
-            return NO;
-            break;
-        default: break;
-    }
-     */
-    return YES;
-}
+//- (BOOL)isAssetCanBeSelected:(PHAsset *)asset {
+//    /*
+//    switch (asset.mediaType) {
+//        case PHAssetMediaTypeVideo: {
+//            // 视频时长
+//            // NSTimeInterval duration = phAsset.duration;
+//            return NO;
+//        } break;
+//        case PHAssetMediaTypeImage: {
+//            // 图片尺寸
+//            if (asset.pixelWidth > 3000 || asset.pixelHeight > 3000) {
+//                UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"不支持选择超大图片" message:nil preferredStyle:UIAlertControllerStyleAlert];
+//                [alertController addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:nil]];
+//                [self.presentedViewController presentViewController:alertController animated:YES completion:nil];
+//                return NO;
+//            }
+//            return YES;
+//        } break;
+//        case PHAssetMediaTypeAudio:
+//            return NO;
+//            break;
+//        case PHAssetMediaTypeUnknown:
+//            return NO;
+//            break;
+//        default: break;
+//    }
+//     */
+//    return YES;
+//}
 
 #pragma mark - Click Event
 

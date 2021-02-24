@@ -721,6 +721,17 @@ static CGFloat itemMargin = 5;
 
 /// 拍照按钮点击事件
 - (void)takePhoto {
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+    if (tzImagePickerVc.didFinishTapTakePhoto) {
+        if (tzImagePickerVc.autoDismiss) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                tzImagePickerVc.didFinishTapTakePhoto();
+            }];
+        } else {
+            tzImagePickerVc.didFinishTapTakePhoto();
+        }
+        return;
+    }
     AVAuthorizationStatus authStatus = [AVCaptureDevice authorizationStatusForMediaType:AVMediaTypeVideo];
     if ((authStatus == AVAuthorizationStatusRestricted || authStatus ==AVAuthorizationStatusDenied)) {
         

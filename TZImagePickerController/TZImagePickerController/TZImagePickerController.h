@@ -251,8 +251,11 @@
 
 @property (nonatomic, weak) id<TZImagePickerControllerDelegate> pickerDelegate;
 
-// 点击编辑按钮
+// 点击编辑事件
 @property (nonatomic, copy) void (^clickEditButtonBlock)(UIViewController *controller, TZAssetModel *assetModel, UIImage *photo);
+
+// 自定义点击拍照事件，默认调用系统相机
+@property (nonatomic, copy) void (^didFinishTapTakePhoto)(void);
 
 @end
 

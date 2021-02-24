@@ -25,6 +25,7 @@
 #import "TZLocationManager.h"
 #import "TZPhotoPreviewController.h"
 #import "TZPhotoPreviewCell.h"
+#import "PHAsset+TZEditAsset.h"
 
 @class TZAlbumCell, TZAssetCell;
 @protocol TZImagePickerControllerDelegate;
@@ -249,6 +250,9 @@
 @property (nonatomic, copy) void (^didFinishPickingGifImageHandle)(UIImage *animatedImage,id sourceAssets);
 
 @property (nonatomic, weak) id<TZImagePickerControllerDelegate> pickerDelegate;
+
+// 点击编辑按钮
+@property (nonatomic, copy) void (^clickEditButtonBlock)(UIViewController *controller, TZAssetModel *assetModel, UIImage *photo);
 
 @end
 

@@ -46,6 +46,7 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, assign) BOOL isSavingMedia;
 @property (nonatomic, assign) BOOL isFetchingMedia;
+@property (nonatomic, assign) NSInteger currentVideoAssetIndex; // 单选状态下，选中视频index
 @end
 
 static CGSize AssetGridThumbnailSize;
@@ -467,7 +468,9 @@ static CGFloat itemMargin = 5;
             TZAssetModel *model = tzImagePickerVc.selectedModels[i];
             TZImageRequestOperation *operation = [[TZImageRequestOperation alloc] initWithAsset:model.asset completion:^(UIImage * _Nonnull photo, NSDictionary * _Nonnull info, BOOL isDegraded) {
                 if (isDegraded) return;
-                if (photo) {
+                if (model.editImage) {
+                    [photos replaceObjectAtIndex:i withObject:model.editImage];
+                } else if (photo) {
                     if (![TZImagePickerConfig sharedInstance].notScaleImage) {
                         photo = [[TZImageManager manager] scaleImage:photo toSize:CGSizeMake(tzImagePickerVc.photoWidth, (int)(tzImagePickerVc.photoWidth * photo.size.height / photo.size.width))];
                     }
@@ -682,9 +685,14 @@ static CGFloat itemMargin = 5;
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both video and photo"]];
         } else {
-            TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
-            videoPlayerVc.model = model;
-            [self.navigationController pushViewController:videoPlayerVc animated:YES];
+            self.currentVideoAssetIndex = index;
+            /// 视频单选情况下，直接进入编辑页
+            if (tzImagePickerVc.clickEditButtonBlock) {
+                tzImagePickerVc.clickEditButtonBlock(self, model, nil);
+            }
+//            TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
+//            videoPlayerVc.model = model;
+//            [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
     } else if (model.type == TZAssetModelMediaTypePhotoGif && tzImagePickerVc.allowPickingGif && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
@@ -1097,6 +1105,43 @@ static CGFloat itemMargin = 5;
     }
     return indexPaths;
 }
+
+#pragma mark - 编辑单个视频完成调用方法
+
+- (void)didFinishEditVideoWithURL:(NSURL *)videoURL coverImage:(UIImage *)image {
+    TZAssetModel *model = _models[self.currentVideoAssetIndex];
+    model.editVideoURL = videoURL;
+    model.asset.editVideoURL = videoURL;
+    [self callDelegateMethodWithModel:model coverImage:image];
+}
+
+- (void)editVideoFinishWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
+    if (self.navigationController) {
+        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+        if (imagePickerVc.autoDismiss) {
+            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+                [self callDelegateMethodWithModel:model coverImage:image];
+            }];
+        } else {
+            [self callDelegateMethodWithModel:model coverImage:image];
+        }
+    } else {
+        [self dismissViewControllerAnimated:YES completion:^{
+            [self callDelegateMethodWithModel:model coverImage:image];
+        }];
+    }
+}
+
+- (void)callDelegateMethodWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
+    TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+    if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingVideo:sourceAssets:)]) {
+        [imagePickerVc.pickerDelegate imagePickerController:imagePickerVc didFinishPickingVideo:image sourceAssets:model.asset];
+    }
+    if (imagePickerVc.didFinishPickingVideoHandle) {
+        imagePickerVc.didFinishPickingVideoHandle(image,model.asset);
+    }
+}
+
 #pragma clang diagnostic pop
 
 @end

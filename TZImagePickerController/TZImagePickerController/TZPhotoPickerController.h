@@ -14,6 +14,10 @@
 @property (nonatomic, assign) BOOL isFirstAppear;
 @property (nonatomic, assign) NSInteger columnNumber;
 @property (nonatomic, strong) TZAlbumModel *model;
+
+/// 单选视频状态下，视频编辑完成
+- (void)didFinishEditVideoWithURL:(NSURL *)videoURL coverImage:(UIImage *)image;
+
 @end
 
 

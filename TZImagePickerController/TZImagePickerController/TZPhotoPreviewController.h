@@ -22,4 +22,8 @@
 @property (nonatomic, copy) void (^doneButtonClickBlockCropMode)(UIImage *cropedImage,id asset);
 @property (nonatomic, copy) void (^doneButtonClickBlockWithPreviewType)(NSArray<UIImage *> *photos,NSArray *assets,BOOL isSelectOriginalPhoto);
 
+/// 编辑后更新模型
+- (void)updateAssetWithEditImage:(UIImage *)image;
+- (void)updateAssetWithEditVideoURL:(NSURL *)videoURL coverImage:(UIImage *)image;
+
 @end

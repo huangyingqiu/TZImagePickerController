@@ -54,6 +54,7 @@
 @property (nonatomic, assign) int32_t imageRequestID;
 
 - (void)recoverSubviews;
+- (void)resizeSubviews;
 @end
 
 

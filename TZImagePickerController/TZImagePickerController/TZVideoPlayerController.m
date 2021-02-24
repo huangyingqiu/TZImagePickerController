@@ -65,6 +65,19 @@
 }
 
 - (void)configMoviePlayer {
+    if (self.model.editVideoURL) {
+        self->_cover = self.model.videoCoverImage;
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.model.editVideoURL];
+        self->_player = [AVPlayer playerWithPlayerItem:playerItem];
+        self->_playerLayer = [AVPlayerLayer playerLayerWithPlayer:self->_player];
+        self->_playerLayer.frame = self.view.bounds;
+        [self.view.layer addSublayer:self->_playerLayer];
+        [self addProgressObserver];
+        [self configPlayButton];
+        [self configBottomToolBar];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(pausePlayerAndShowNaviBar) name:AVPlayerItemDidPlayToEndTimeNotification object:self->_player.currentItem];
+        return;
+    }
     [[TZImageManager manager] getPhotoWithAsset:_model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
         BOOL iCloudSyncFailed = !photo && [TZCommonTools isICloudSyncError:info[PHImageErrorKey]];
         self.iCloudErrorView.hidden = !iCloudSyncFailed;

@@ -66,7 +66,13 @@
 
 - (void)setModel:(TZAssetModel *)model {
     [super setModel:model];
-    _previewView.model = model;
+    if (model.asset.editImage) {
+        _previewView.imageView.image = model.editImage;
+        [_previewView resizeSubviews];
+    }else {
+        _previewView.model = model;
+    }
+
 }
 
 - (void)recoverSubviews {
@@ -168,6 +174,12 @@
     self.isRequestingGIF = NO;
     [_scrollView setZoomScale:1.0 animated:NO];
     if (model.type == TZAssetModelMediaTypePhotoGif) {
+        //如果gif被编辑了则先展示被编辑的gif
+        if (model.editImage) {
+            self.imageView.image = model.editImage;
+            [self resizeSubviews];
+            return;
+        }
         // 先显示缩略图
         [[TZImageManager manager] getPhotoWithAsset:model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
             if (photo) {
@@ -440,6 +452,13 @@
         _playerLayer = nil;
         [_player pause];
         _player = nil;
+    }
+    
+    if (self.model.editVideoURL) {
+        self.cover = self.model.videoCoverImage;
+        AVPlayerItem *playerItem = [AVPlayerItem playerItemWithURL:self.model.editVideoURL];
+        [self configPlayerWithItem:playerItem];
+        return;
     }
     
     if (self.model && self.model.asset) {

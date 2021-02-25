@@ -197,9 +197,8 @@
 
 - (void)doneButtonClick {
     if ([[TZImageManager manager] isAssetCannotBeSelected:_model.asset]) {
-        NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
         TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-        [imagePickerVc showAlertWithTitle:title];
+        [imagePickerVc showAlertWithTitle:[TZImageManager manager].cannotSelectAssetTips];
         return;
     }
     if (self.navigationController) {

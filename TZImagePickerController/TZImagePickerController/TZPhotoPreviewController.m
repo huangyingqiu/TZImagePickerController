@@ -171,7 +171,7 @@
     _editButton.titleLabel.font = [UIFont systemFontOfSize:13];
     _editButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [_editButton addTarget:self action:@selector(editButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    [_editButton setTitle:@"编辑" forState:UIControlStateNormal];
+    [_editButton setTitle:[NSBundle tz_localizedStringForKey:@"edit"] forState:UIControlStateNormal];
     [_editButton setTitleColor:[UIColor lightGrayColor]  forState:UIControlStateNormal];
     
     _numberImageView = [[UIImageView alloc] initWithImage:_tzImagePickerVc.photoNumberIconImage];
@@ -329,8 +329,7 @@
             // 2. if not over the maxImagesCount / 如果没有超过最大个数限制
         } else {
             if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
-                NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
-                [_tzImagePickerVc showAlertWithTitle:title];
+                [_tzImagePickerVc showAlertWithTitle:[TZImageManager manager].cannotSelectAssetTips];
                 return;
             }
             [_tzImagePickerVc addSelectedModel:model];
@@ -410,8 +409,7 @@
     if (_tzImagePickerVc.selectedModels.count == 0 && _tzImagePickerVc.minImagesCount <= 0 && _tzImagePickerVc.autoSelectCurrentWhenDone) {
         TZAssetModel *model = _models[self.currentIndex];
         if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
-            NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
-            [_tzImagePickerVc showAlertWithTitle:title];
+            [_tzImagePickerVc showAlertWithTitle:[TZImageManager manager].cannotSelectAssetTips];
             return;
         }
         [self select:_selectButton];

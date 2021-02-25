@@ -635,8 +635,7 @@ static CGFloat itemMargin = 5;
             // 2. select:check if over the maxImagesCount / 选择照片,检查是否超过了最大个数的限制
             if (tzImagePickerVc.selectedModels.count < tzImagePickerVc.maxImagesCount) {
                 if ([[TZImageManager manager] isAssetCannotBeSelected:model.asset]) {
-                    NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
-                    [tzImagePickerVc showAlertWithTitle:title];
+                    [tzImagePickerVc showAlertWithTitle:[TZImageManager manager].cannotSelectAssetTips];
                     return;
                 }
                 if (!tzImagePickerVc.allowPreview) {
@@ -689,10 +688,11 @@ static CGFloat itemMargin = 5;
             /// 视频单选情况下，直接进入编辑页
             if (tzImagePickerVc.clickEditButtonBlock) {
                 tzImagePickerVc.clickEditButtonBlock(self, model, nil);
+            } else {
+                TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
+                videoPlayerVc.model = model;
+                [self.navigationController pushViewController:videoPlayerVc animated:YES];
             }
-//            TZVideoPlayerController *videoPlayerVc = [[TZVideoPlayerController alloc] init];
-//            videoPlayerVc.model = model;
-//            [self.navigationController pushViewController:videoPlayerVc animated:YES];
         }
     } else if (model.type == TZAssetModelMediaTypePhotoGif && tzImagePickerVc.allowPickingGif && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
@@ -970,8 +970,7 @@ static CGFloat itemMargin = 5;
             // 不能多选视频的情况下，不选中拍摄的视频
         } else {
             if ([[TZImageManager manager] isAssetCannotBeSelected:assetModel.asset]) {
-                NSString *title = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
-                [tzImagePickerVc showAlertWithTitle:title];
+                [tzImagePickerVc showAlertWithTitle:[TZImageManager manager].cannotSelectAssetTips];
                 return;
             }
             assetModel.isSelected = YES;

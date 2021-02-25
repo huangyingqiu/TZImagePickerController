@@ -815,8 +815,12 @@ static dispatch_once_t onceToken;
         BOOL canSelectAsset = [self.pickerDelegate isAssetCanBeSelected:asset];
         return !canSelectAsset;
     }
-    // 如果iCloud还没下载好，不允许选择
     if (asset.mediaType == PHAssetMediaTypeVideo) {
+        NSLog(@">>>>: 视频时长 %f", asset.duration);
+        if (asset.duration > 5 * 60) {
+            self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"album_limit_video_duration"];
+            return YES;
+        }
         PHVideoRequestOptions *options = [[PHVideoRequestOptions alloc] init];
         options.version = PHVideoRequestOptionsVersionOriginal;
         __block BOOL cannotBeSelected = NO;
@@ -825,7 +829,11 @@ static dispatch_once_t onceToken;
             AVURLAsset* urlAsset = (AVURLAsset*)avasset;
             NSNumber *size;
             [urlAsset.URL getResourceValue:&size forKey:NSURLFileSizeKey error:nil];
-            if (size.floatValue <= 0) {
+            if (size.floatValue <= 0) { // iCloud还没下载好，不允许选择
+                self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"iCloud sync failed"];
+                cannotBeSelected = YES;
+            } else if (size.floatValue > 100 * 1024 * 1024) { // 视频超过100M不能选择
+                self.cannotSelectAssetTips = [NSString stringWithFormat:@"%@%@",[NSBundle tz_localizedStringForKey:@"album_limit_video_size"],@"100M"];
                 cannotBeSelected = YES;
             }
             NSLog(@">>>>: size is %f",[size floatValue]/(1024.0*1024.0));
@@ -833,6 +841,11 @@ static dispatch_once_t onceToken;
         }];
         dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
         return cannotBeSelected;
+    } else {
+        if (asset.pixelWidth < 100 || asset.pixelHeight < 100) { // 图片尺寸过小
+            self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"Unable to select min photo"];
+            return YES;
+        }
     }
     return NO;
 }

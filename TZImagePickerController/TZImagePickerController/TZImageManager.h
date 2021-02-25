@@ -46,6 +46,9 @@
 @property (nonatomic, assign) NSInteger minPhotoHeightSelectable;
 @property (nonatomic, assign) BOOL hideWhenCanNotSelect;
 
+/// 不能选中的文案Tips
+@property (nonatomic, copy) NSString *cannotSelectAssetTips;
+
 /// Return YES if Authorized 返回YES如果得到了授权
 - (BOOL)authorizationStatusAuthorized;
 - (void)requestAuthorizationWithCompletion:(void (^)(void))completion;

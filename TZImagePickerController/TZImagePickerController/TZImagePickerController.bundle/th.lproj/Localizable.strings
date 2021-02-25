@@ -16,3 +16,8 @@
 "Can not use camera"      = "ไม่สามารถใช้กล้องถ่ายรูป";
 "Can not choose both video and photo" = "ไม่สามารถเลือกได้ทั้งวิดีโอและภาพถ่าย";
 "Can not choose both photo and GIF" = "ไม่สามารถเลือกได้ทั้งภาพถ่ายและ GIF";
+"album_limit_video_duration"="สามารถแชร์วิดีโอไม่เกิน 5 นาที";
+"album_limit_video_size"="วิดีโอที่แชร์ต้องไม่เกิน";
+"Select %zd photos best" = "Select %zd photos best";
+"Unable to select min photo" = "Photo is too small to be uploaded. Please choose again.";
+"edit" = "แก้ไข";

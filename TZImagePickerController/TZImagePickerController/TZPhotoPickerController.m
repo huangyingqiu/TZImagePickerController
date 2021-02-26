@@ -1153,33 +1153,6 @@ static CGFloat itemMargin = 5;
     [imagePickerVc addSelectedModel:model];
     [self doneButtonClick];
 }
-//
-//- (void)editVideoFinishWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
-//    if (self.navigationController) {
-//        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-//        if (imagePickerVc.autoDismiss) {
-//            [self.navigationController dismissViewControllerAnimated:YES completion:^{
-//                [self callDelegateMethodWithModel:model coverImage:image];
-//            }];
-//        } else {
-//            [self callDelegateMethodWithModel:model coverImage:image];
-//        }
-//    } else {
-//        [self dismissViewControllerAnimated:YES completion:^{
-//            [self callDelegateMethodWithModel:model coverImage:image];
-//        }];
-//    }
-//}
-//
-//- (void)callDelegateMethodWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
-//    TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-//    if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingVideo:sourceAssets:)]) {
-//        [imagePickerVc.pickerDelegate imagePickerController:imagePickerVc didFinishPickingVideo:image sourceAssets:model.asset];
-//    }
-//    if (imagePickerVc.didFinishPickingVideoHandle) {
-//        imagePickerVc.didFinishPickingVideoHandle(image,model.asset);
-//    }
-//}
 
 #pragma clang diagnostic pop
 

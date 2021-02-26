@@ -18,6 +18,9 @@
 /// 单选视频状态下，视频编辑完成
 - (void)didFinishEditVideoWithURL:(NSURL *)videoURL coverImage:(UIImage *)image;
 
+/// 单选图片状态下，图片编辑完成
+- (void)didFinishEditImageWithImage:(UIImage *)image;
+
 @end
 
 

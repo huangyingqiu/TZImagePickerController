@@ -46,7 +46,7 @@
 @property (nonatomic, strong) NSOperationQueue *operationQueue;
 @property (nonatomic, assign) BOOL isSavingMedia;
 @property (nonatomic, assign) BOOL isFetchingMedia;
-@property (nonatomic, assign) NSInteger currentVideoAssetIndex; // 单选状态下，选中视频index
+@property (nonatomic, assign) NSInteger currentAssetIndex; // 单选状态下，选中index
 @end
 
 static CGSize AssetGridThumbnailSize;
@@ -679,12 +679,30 @@ static CGFloat itemMargin = 5;
         index = indexPath.item - 1;
     }
     TZAssetModel *model = _models[index];
+    if (model.type != TZAssetModelMediaTypeVideo && tzImagePickerVc.maxImagesCount == 1 && tzImagePickerVc.clickEditButtonBlock) {
+        if (model.editImage) {
+            self.currentAssetIndex = index;
+            tzImagePickerVc.clickEditButtonBlock(self, model, model.editImage);
+            return;
+        }
+        /// 图片单选状态下，直接进编辑页
+        [[TZImageManager manager] getPhotoWithAsset:model.asset completion:^(UIImage *photo, NSDictionary *info, BOOL isDegraded) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (!isDegraded) {
+                    self.currentAssetIndex = index;
+                    tzImagePickerVc.clickEditButtonBlock(self, model, photo);
+                }
+            });
+        } progressHandler:^(double progress, NSError *error, BOOL *stop, NSDictionary *info) {
+        } networkAccessAllowed:YES];
+        return;
+    }
     if (model.type == TZAssetModelMediaTypeVideo && !tzImagePickerVc.allowPickingMultipleVideo) {
         if (tzImagePickerVc.selectedModels.count > 0) {
             TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
             [imagePickerVc showAlertWithTitle:[NSBundle tz_localizedStringForKey:@"Can not choose both video and photo"]];
         } else {
-            self.currentVideoAssetIndex = index;
+            self.currentAssetIndex = index;
             /// 视频单选情况下，直接进入编辑页
             if (tzImagePickerVc.clickEditButtonBlock) {
                 tzImagePickerVc.clickEditButtonBlock(self, model, nil);
@@ -1116,41 +1134,52 @@ static CGFloat itemMargin = 5;
     return indexPaths;
 }
 
-#pragma mark - 编辑单个视频完成调用方法
+#pragma mark - 编辑单个视频/图片完成调用方法
+
+- (void)didFinishEditImageWithImage:(UIImage *)image {
+    TZAssetModel *assetModel = _models[self.currentAssetIndex];
+    assetModel.editImage = image;
+    assetModel.asset.editImage = image;
+    TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+    [imagePickerVc addSelectedModel:assetModel];
+    [self doneButtonClick];
+}
 
 - (void)didFinishEditVideoWithURL:(NSURL *)videoURL coverImage:(UIImage *)image {
-    TZAssetModel *model = _models[self.currentVideoAssetIndex];
+    TZAssetModel *model = _models[self.currentAssetIndex];
     model.editVideoURL = videoURL;
     model.asset.editVideoURL = videoURL;
-    [self callDelegateMethodWithModel:model coverImage:image];
-}
-
-- (void)editVideoFinishWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
-    if (self.navigationController) {
-        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-        if (imagePickerVc.autoDismiss) {
-            [self.navigationController dismissViewControllerAnimated:YES completion:^{
-                [self callDelegateMethodWithModel:model coverImage:image];
-            }];
-        } else {
-            [self callDelegateMethodWithModel:model coverImage:image];
-        }
-    } else {
-        [self dismissViewControllerAnimated:YES completion:^{
-            [self callDelegateMethodWithModel:model coverImage:image];
-        }];
-    }
-}
-
-- (void)callDelegateMethodWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
-    if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingVideo:sourceAssets:)]) {
-        [imagePickerVc.pickerDelegate imagePickerController:imagePickerVc didFinishPickingVideo:image sourceAssets:model.asset];
-    }
-    if (imagePickerVc.didFinishPickingVideoHandle) {
-        imagePickerVc.didFinishPickingVideoHandle(image,model.asset);
-    }
+    [imagePickerVc addSelectedModel:model];
+    [self doneButtonClick];
 }
+//
+//- (void)editVideoFinishWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
+//    if (self.navigationController) {
+//        TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+//        if (imagePickerVc.autoDismiss) {
+//            [self.navigationController dismissViewControllerAnimated:YES completion:^{
+//                [self callDelegateMethodWithModel:model coverImage:image];
+//            }];
+//        } else {
+//            [self callDelegateMethodWithModel:model coverImage:image];
+//        }
+//    } else {
+//        [self dismissViewControllerAnimated:YES completion:^{
+//            [self callDelegateMethodWithModel:model coverImage:image];
+//        }];
+//    }
+//}
+//
+//- (void)callDelegateMethodWithModel:(TZAssetModel *)model coverImage:(UIImage *)image {
+//    TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
+//    if ([imagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingVideo:sourceAssets:)]) {
+//        [imagePickerVc.pickerDelegate imagePickerController:imagePickerVc didFinishPickingVideo:image sourceAssets:model.asset];
+//    }
+//    if (imagePickerVc.didFinishPickingVideoHandle) {
+//        imagePickerVc.didFinishPickingVideoHandle(image,model.asset);
+//    }
+//}
 
 #pragma clang diagnostic pop
 

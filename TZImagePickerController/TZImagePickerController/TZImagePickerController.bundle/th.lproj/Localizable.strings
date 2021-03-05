@@ -21,3 +21,4 @@
 "Select %zd photos best" = "Select %zd photos best";
 "Unable to select min photo" = "Photo is too small to be uploaded. Please choose again.";
 "edit" = "แก้ไข";
+"album_limit_photo_size" = "รูปภาพที่แชร์ต้องไม่เกิน20M";

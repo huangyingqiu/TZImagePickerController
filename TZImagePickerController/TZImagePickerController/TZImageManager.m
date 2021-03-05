@@ -816,7 +816,7 @@ static dispatch_once_t onceToken;
         return !canSelectAsset;
     }
     if (asset.mediaType == PHAssetMediaTypeVideo) {
-        NSLog(@">>>>: 视频时长 %f", asset.duration);
+//        NSLog(@">>>>: 视频时长 %f", asset.duration);
         if (asset.duration > 5 * 60) {
             self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"album_limit_video_duration"];
             return YES;
@@ -836,7 +836,7 @@ static dispatch_once_t onceToken;
                 self.cannotSelectAssetTips = [NSString stringWithFormat:@"%@%@",[NSBundle tz_localizedStringForKey:@"album_limit_video_size"],@"100M"];
                 cannotBeSelected = YES;
             }
-            NSLog(@">>>>: size is %f",[size floatValue]/(1024.0*1024.0));
+//            NSLog(@">>>>: size is %f",[size floatValue]/(1024.0*1024.0));
             dispatch_semaphore_signal(sema);
         }];
         dispatch_semaphore_wait(sema, DISPATCH_TIME_FOREVER);
@@ -845,6 +845,19 @@ static dispatch_once_t onceToken;
         if (asset.pixelWidth < 100 || asset.pixelHeight < 100) { // 图片尺寸过小
             self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"Unable to select min photo"];
             return YES;
+        } else {
+            __block BOOL cannotBeSelected = NO;
+            PHImageRequestOptions *options = [[PHImageRequestOptions alloc] init];
+            options.version = PHVideoRequestOptionsVersionOriginal;
+            options.synchronous = YES;
+            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:options resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+                if (imageData.length > 20 * 1024.0 * 1024.0) {
+                    self.cannotSelectAssetTips = [NSBundle tz_localizedStringForKey:@"album_limit_photo_size"];
+                    cannotBeSelected = YES;
+                }
+//                NSLog(@">>>>: image size is %f",[imageData length]/(1024.0*1024.0));
+            }];
+            return cannotBeSelected;
         }
     }
     return NO;

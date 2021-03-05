@@ -525,7 +525,7 @@ static CGFloat itemMargin = 5;
 
 - (void)callDelegateMethodWithPhotos:(NSArray *)photos assets:(NSArray *)assets infoArr:(NSArray *)infoArr {
     TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
-    if (tzImagePickerVc.allowPickingVideo && tzImagePickerVc.maxImagesCount == 1) {
+    if ((tzImagePickerVc.allowPickingVideo && tzImagePickerVc.maxImagesCount == 1) || [self isSelectSingleVideoWithAssets:assets]) {
         if ([[TZImageManager manager] isVideo:[assets firstObject]]) {
             if ([tzImagePickerVc.pickerDelegate respondsToSelector:@selector(imagePickerController:didFinishPickingVideo:sourceAssets:)]) {
                 [tzImagePickerVc.pickerDelegate imagePickerController:tzImagePickerVc didFinishPickingVideo:[photos firstObject] sourceAssets:[assets firstObject]];
@@ -549,6 +549,18 @@ static CGFloat itemMargin = 5;
     if (tzImagePickerVc.didFinishPickingPhotosWithInfosHandle) {
         tzImagePickerVc.didFinishPickingPhotosWithInfosHandle(photos,assets,_isSelectOriginalPhoto,infoArr);
     }
+}
+
+/// maxImagesCount > 1的状态下选中了单个视频
+- (BOOL)isSelectSingleVideoWithAssets:(NSArray *)assets {
+    TZImagePickerController *tzImagePickerVc = (TZImagePickerController *)self.navigationController;
+    if (!tzImagePickerVc.allowPickingMultipleVideo && assets.count == 1) {
+        PHAsset *asset = assets.firstObject;
+        if (asset.mediaType == PHAssetMediaTypeVideo) {
+            return YES;
+        }
+    }
+    return NO;
 }
 
 #pragma mark - UICollectionViewDataSource && Delegate

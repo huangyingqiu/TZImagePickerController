@@ -1161,6 +1161,7 @@ static CGFloat itemMargin = 5;
     TZAssetModel *model = _models[self.currentAssetIndex];
     model.editVideoURL = videoURL;
     model.asset.editVideoURL = videoURL;
+    model.asset.editImage = image;
     TZImagePickerController *imagePickerVc = (TZImagePickerController *)self.navigationController;
     [imagePickerVc addSelectedModel:model];
     [self doneButtonClick];

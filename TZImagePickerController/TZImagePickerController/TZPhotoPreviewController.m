@@ -14,6 +14,7 @@
 #import "TZImageManager.h"
 #import "TZImageCropManager.h"
 #import "PHAsset+TZEditAsset.h"
+#import "YQPhotoPreviewBottomBar.h"
 
 @interface TZPhotoPreviewController ()<UICollectionViewDataSource,UICollectionViewDelegate,UIScrollViewDelegate> {
     UICollectionView *_collectionView;
@@ -45,6 +46,8 @@
 @property (nonatomic, assign) double progress;
 @property (strong, nonatomic) UIAlertController *alertView;
 @property (nonatomic, strong) UIView *iCloudErrorView;
+
+@property (nonatomic, strong) YQPhotoPreviewBottomBar *previewListView;
 @end
 
 @implementation TZPhotoPreviewController
@@ -62,6 +65,7 @@
     }
     [self configCollectionView];
     [self configCustomNaviBar];
+    [self configPreviewListView];
     [self configBottomToolBar];
     self.view.clipsToBounds = YES;
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didChangeStatusBarOrientationNotification:) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
@@ -256,6 +260,22 @@
         [self.view bringSubviewToFront:_naviBar];
         [self.view bringSubviewToFront:_toolBar];
     }
+}
+
+- (void)configPreviewListView {
+    YQPhotoPreviewBottomBar *previewListView = [[YQPhotoPreviewBottomBar alloc] initWithFrame:CGRectMake(0, self.view.tz_height - 119, self.view.tz_width, 70)];
+    [self.view addSubview:previewListView];
+    previewListView.selectedModels = self.models;
+    previewListView.parentViewController = self;
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [previewListView scrollToIndex:self.currentIndex];
+    });
+    __weak typeof(self) weakSelf = self;
+    previewListView.didSelectedIndexPath = ^(NSIndexPath * _Nonnull indexPath) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        [strongSelf->_collectionView scrollToItemAtIndexPath:indexPath atScrollPosition:UICollectionViewScrollPositionLeft animated:YES];
+    };
+    self.previewListView = previewListView;
 }
 
 #pragma mark - Layout
@@ -683,6 +703,7 @@
     assetModel.editImage = image;
     assetModel.asset.editImage = image;
     [_collectionView reloadData];
+    [self.previewListView reloadData];
 }
 
 - (void)updateAssetWithEditVideoURL:(NSURL *)videoURL coverImage:(UIImage *)image {
@@ -691,6 +712,7 @@
     assetModel.asset.editVideoURL = videoURL;
     assetModel.videoCoverImage = image;
     [_collectionView reloadData];
+    [self.previewListView reloadData];
 }
 
 @end

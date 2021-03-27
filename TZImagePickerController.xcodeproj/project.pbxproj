@@ -72,6 +72,12 @@
 		9F763A761FA0741D00D9E526 /* TZImageManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 90CE84AC1C3A89EF003D0779 /* TZImageManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9F763A771FA0741D00D9E526 /* TZImageCropManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 6DC84D081DF5358500A107A9 /* TZImageCropManager.h */; };
 		9F763A781FA0741D00D9E526 /* TZLocationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 902938D61EE2D02C000F2F8F /* TZLocationManager.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E3965FDC260EDF47004431C7 /* YQPhotoPreviewBottomListCell.h in Headers */ = {isa = PBXBuildFile; fileRef = E3965FDA260EDF47004431C7 /* YQPhotoPreviewBottomListCell.h */; };
+		E3965FDD260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3965FDB260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m */; };
+		E3965FDE260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = E3965FDB260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m */; };
+		E3965FE4260EDF67004431C7 /* YQPhotoPreviewBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E3965FE2260EDF67004431C7 /* YQPhotoPreviewBottomBar.m */; };
+		E3965FE5260EDF67004431C7 /* YQPhotoPreviewBottomBar.m in Sources */ = {isa = PBXBuildFile; fileRef = E3965FE2260EDF67004431C7 /* YQPhotoPreviewBottomBar.m */; };
+		E3965FE6260EDF67004431C7 /* YQPhotoPreviewBottomBar.h in Headers */ = {isa = PBXBuildFile; fileRef = E3965FE3260EDF67004431C7 /* YQPhotoPreviewBottomBar.h */; };
 		E3B5E5DE25E600AC0011D5DF /* PHAsset+TZEditAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5E5DC25E600AC0011D5DF /* PHAsset+TZEditAsset.m */; };
 		E3B5E5DF25E600AC0011D5DF /* PHAsset+TZEditAsset.m in Sources */ = {isa = PBXBuildFile; fileRef = E3B5E5DC25E600AC0011D5DF /* PHAsset+TZEditAsset.m */; };
 		E3B5E5E025E600AC0011D5DF /* PHAsset+TZEditAsset.h in Headers */ = {isa = PBXBuildFile; fileRef = E3B5E5DD25E600AC0011D5DF /* PHAsset+TZEditAsset.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -185,6 +191,10 @@
 		90CE84B61C3BABB6003D0779 /* TZVideoPlayerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TZVideoPlayerController.m; sourceTree = "<group>"; };
 		9F763A421FA071CF00D9E526 /* TZImagePickerController.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TZImagePickerController.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9F763A451FA071D000D9E526 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E3965FDA260EDF47004431C7 /* YQPhotoPreviewBottomListCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YQPhotoPreviewBottomListCell.h; sourceTree = "<group>"; };
+		E3965FDB260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQPhotoPreviewBottomListCell.m; sourceTree = "<group>"; };
+		E3965FE2260EDF67004431C7 /* YQPhotoPreviewBottomBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YQPhotoPreviewBottomBar.m; sourceTree = "<group>"; };
+		E3965FE3260EDF67004431C7 /* YQPhotoPreviewBottomBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YQPhotoPreviewBottomBar.h; sourceTree = "<group>"; };
 		E3B5E5DC25E600AC0011D5DF /* PHAsset+TZEditAsset.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "PHAsset+TZEditAsset.m"; sourceTree = "<group>"; };
 		E3B5E5DD25E600AC0011D5DF /* PHAsset+TZEditAsset.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "PHAsset+TZEditAsset.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -309,6 +319,10 @@
 		900EEFF51C2BBF7600EA709B /* TZImagePickerController */ = {
 			isa = PBXGroup;
 			children = (
+				E3965FE3260EDF67004431C7 /* YQPhotoPreviewBottomBar.h */,
+				E3965FE2260EDF67004431C7 /* YQPhotoPreviewBottomBar.m */,
+				E3965FDA260EDF47004431C7 /* YQPhotoPreviewBottomListCell.h */,
+				E3965FDB260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m */,
 				900EEFF61C2BBF9500EA709B /* TZImagePickerController.h */,
 				900EEFF71C2BBF9500EA709B /* TZImagePickerController.m */,
 				900EEFFC1C2BD58B00EA709B /* TZPhotoPickerController.h */,
@@ -397,9 +411,11 @@
 				9F763A731FA0741D00D9E526 /* TZVideoPlayerController.h in Headers */,
 				9F763A741FA0741D00D9E526 /* TZGifPhotoPreviewController.h in Headers */,
 				9005E2B5257A462E002A8682 /* UIView+TZLayout.h in Headers */,
+				E3965FE6260EDF67004431C7 /* YQPhotoPreviewBottomBar.h in Headers */,
 				9F763A761FA0741D00D9E526 /* TZImageManager.h in Headers */,
 				9F763A781FA0741D00D9E526 /* TZLocationManager.h in Headers */,
 				9F763A711FA0741D00D9E526 /* TZPhotoPreviewController.h in Headers */,
+				E3965FDC260EDF47004431C7 /* YQPhotoPreviewBottomListCell.h in Headers */,
 				9F763A721FA0741D00D9E526 /* TZPhotoPreviewCell.h in Headers */,
 				9F763A701FA0741D00D9E526 /* TZAssetCell.h in Headers */,
 				9F763A6F1FA0741D00D9E526 /* TZPhotoPickerController.h in Headers */,
@@ -586,6 +602,7 @@
 				900EEFFE1C2BD58B00EA709B /* TZPhotoPickerController.m in Sources */,
 				90CE84B71C3BABB6003D0779 /* TZVideoPlayerController.m in Sources */,
 				900EF0021C2BD7E400EA709B /* TZAssetCell.m in Sources */,
+				E3965FDD260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m in Sources */,
 				6DD0502B1DF659ED0057C78D /* TZProgressView.m in Sources */,
 				6D32B9BD1CD83640005CE1E0 /* LxGridViewFlowLayout.m in Sources */,
 				6D4608311DFFC60D004FB009 /* TZGifPhotoPreviewController.m in Sources */,
@@ -593,6 +610,7 @@
 				900E65871C2BB8D5003D9A9E /* ViewController.m in Sources */,
 				90CE84AE1C3A89EF003D0779 /* TZImageManager.m in Sources */,
 				901F2295215CABD600F604ED /* FLAnimatedImage.m in Sources */,
+				E3965FE4260EDF67004431C7 /* YQPhotoPreviewBottomBar.m in Sources */,
 				900E65841C2BB8D5003D9A9E /* AppDelegate.m in Sources */,
 				9005E2B3257A462E002A8682 /* UIView+TZLayout.m in Sources */,
 				901F2296215CABD600F604ED /* FLAnimatedImageView.m in Sources */,
@@ -637,7 +655,9 @@
 				9005E2B4257A462E002A8682 /* UIView+TZLayout.m in Sources */,
 				E3B5E5DF25E600AC0011D5DF /* PHAsset+TZEditAsset.m in Sources */,
 				9F763A5A1FA072E500D9E526 /* TZPhotoPreviewCell.m in Sources */,
+				E3965FE5260EDF67004431C7 /* YQPhotoPreviewBottomBar.m in Sources */,
 				9F763A5C1FA072E500D9E526 /* TZVideoPlayerController.m in Sources */,
+				E3965FDE260EDF47004431C7 /* YQPhotoPreviewBottomListCell.m in Sources */,
 				9F763A5E1FA072E500D9E526 /* TZGifPhotoPreviewController.m in Sources */,
 				9F763A601FA072E500D9E526 /* TZProgressView.m in Sources */,
 				9F763A621FA072E500D9E526 /* TZImageManager.m in Sources */,

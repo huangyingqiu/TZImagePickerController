@@ -599,6 +599,28 @@
     }
 }
 
+// 监听快速滑动，惯性慢慢停止
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    BOOL scrollToScrollStop = !scrollView.tracking && !scrollView.dragging && !scrollView.decelerating;
+    if (scrollToScrollStop) {
+        // 停止后要执行的代码
+        NSInteger index = _collectionView.indexPathsForVisibleItems.firstObject.row;
+        [self.previewListView scrollToIndex:index];
+    }
+}
+
+// 手指控制直接停止
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    if (!decelerate) {
+        BOOL dragToDragStop = scrollView.tracking && !scrollView.dragging && !scrollView.decelerating;
+        if (dragToDragStop) {
+            // 停止后要执行的代码
+            NSInteger index = _collectionView.indexPathsForVisibleItems.firstObject.row;
+            [self.previewListView scrollToIndex:index];
+        }
+    }
+}
+
 #pragma mark - Private Method
 
 - (void)dealloc {

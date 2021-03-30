@@ -621,6 +621,22 @@
     }
 }
 
+- (void)scrollViewWillBeginDecelerating:(UIScrollView *)scrollView {
+    if (scrollView.contentOffset.x <= 0) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[NSBundle tz_localizedStringForKey:@"base_no_more"] preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+        [self performSelector:@selector(dismiss:) withObject:alert afterDelay:0.6];
+    }else if (scrollView.contentOffset.x >= scrollView.contentSize.width - _layout.itemSize.width) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:[NSBundle tz_localizedStringForKey:@"base_no_more"] preferredStyle:UIAlertControllerStyleAlert];
+        [self presentViewController:alert animated:YES completion:nil];
+        [self performSelector:@selector(dismiss:) withObject:alert afterDelay:0.6];
+    }
+}
+
+- (void)dismiss:(UIAlertController *)alert {
+    [alert dismissViewControllerAnimated:YES completion:nil];
+}
+
 #pragma mark - Private Method
 
 - (void)dealloc {
